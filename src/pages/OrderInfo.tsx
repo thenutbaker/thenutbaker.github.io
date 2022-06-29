@@ -16,14 +16,6 @@ type OrderInfoProps = {
 };
 
 const OrderInfo = (props: OrderInfoProps) => {
-  const [showNutbakerPass200Options, setShowNutbakerPass200Options] =
-    useState(false);
-  const [nutbakerPass200Qty, setNutbakerPass200Qty] = useState(0);
-
-  const [showNutbakerPass400Options, setShowNutbakerPass400Options] =
-    useState(false);
-  const [nutbakerPass400Qty, setNutbakerPass400Qty] = useState(0);
-
   const [
     showGranolaOatmealCookiesBundleOptions,
     setShowGranolaOatmealCookiesBundleOptions,
@@ -120,72 +112,11 @@ const OrderInfo = (props: OrderInfoProps) => {
       <SectionHeader title="Bundles" />
       <MultiVariantSelect
         title="The Nutbaker Pass - Bulk orders for granola, get them delivered as and when you like!"
-        subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details."
+        subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details and flavour choices."
         options={NUTBAKER_PASS_OPTIONS}
-        onChange={(selections) => {
-          let required200gQty = 0;
-          let required400gQty = 0;
-          setShowNutbakerPass200Options(false);
-          setShowNutbakerPass400Options(false);
-          for (const selection of selections) {
-            if (selection.productCode === "NUTBAKER_PASS_OCCASIONAL") {
-              required200gQty += 8;
-              setShowNutbakerPass200Options(true);
-            }
-            if (selection.productCode === "NUTBAKER_PASS_REGULAR") {
-              required200gQty += 15;
-              setShowNutbakerPass200Options(true);
-            }
-            if (selection.productCode === "NUTBAKER_PASS_SILVER") {
-              required400gQty += 8;
-              setShowNutbakerPass400Options(true);
-            }
-            if (selection.productCode === "NUTBAKER_PASS_GOLD") {
-              required400gQty += 15;
-              setShowNutbakerPass400Options(true);
-            }
-          }
-          setNutbakerPass200Qty(required200gQty);
-          setNutbakerPass400Qty(required400gQty);
-        }}
+        onChange={() => {}}
         allowQuantitySelection={false}
       />
-      {showNutbakerPass200Options && (
-        <MultiVariantSelect
-          title="Granola Flavours"
-          subtitle="For Nutbaker Pass (200g - Occasional/Regular)"
-          options={GRANOLA_FLAVOURS.map((flavour) => ({
-            productCode: "PLACEHOLDER",
-            label: flavour,
-          }))}
-          onChange={() => {}}
-          allowQuantitySelection
-          quantity={{
-            min: nutbakerPass200Qty,
-            max: nutbakerPass200Qty,
-            validateZero: true,
-          }}
-          singleItemMaxQty={nutbakerPass200Qty}
-        />
-      )}
-      {showNutbakerPass400Options && (
-        <MultiVariantSelect
-          title="Granola Flavours"
-          subtitle="For Nutbaker Pass (400g - Silver/Gold)"
-          options={GRANOLA_FLAVOURS.map((flavour) => ({
-            productCode: "PLACEHOLDER",
-            label: flavour,
-          }))}
-          onChange={() => {}}
-          allowQuantitySelection
-          quantity={{
-            min: nutbakerPass400Qty,
-            max: nutbakerPass400Qty,
-            validateZero: true,
-          }}
-          singleItemMaxQty={nutbakerPass400Qty}
-        />
-      )}
       <MultiVariantSelect
         title="Granola + Oatmeal Cookies"
         subtitle="1 for $20, 2 for $40, 3 for $56"
