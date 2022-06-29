@@ -9,9 +9,9 @@ export const GRANOLA_FLAVOURS = [
 ];
 
 export const LOW_CARB_GRANOLA_FLAVOURS = [
-  "Original",
+  "Vanilla Coconut",
   "Cocoa Nutty",
-  "Peanut Butter",
+  "Peanut Sesame",
 ];
 
 export const MUFFIN_FLAVOURS = [
