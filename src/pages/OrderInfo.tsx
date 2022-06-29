@@ -1,14 +1,14 @@
-import MultiVariantSelect from "../components/MultiVariantSelect";
-import { GRANOLA_FLAVOURS } from "../products.const";
 import { Item, Page } from "../App.types";
+import MultiVariantSelect from "../components/MultiVariantSelect";
 import SectionHeader from "../components/SectionHeader";
 import {
+  GRANOLA_FLAVOURS,
   LOW_CARB_GRANOLA_FLAVOURS,
+  MAX_QUANTITY,
   MUFFIN_FLAVOURS,
   NUTBAKER_PASS_OPTIONS,
   OATMEAL_COOKIE_FLAVOURS,
 } from "../products.const";
-import { useState } from "react";
 
 type OrderInfoProps = {
   setItems: (items: Item[]) => void;
@@ -16,12 +16,6 @@ type OrderInfoProps = {
 };
 
 const OrderInfo = (props: OrderInfoProps) => {
-  const [
-    showGranolaOatmealCookiesBundleOptions,
-    setShowGranolaOatmealCookiesBundleOptions,
-  ] = useState(false);
-  const [granolaOatmealBundleQty, setGranolaOatmealBundleQty] = useState(0);
-
   return (
     <>
       <SectionHeader
@@ -37,7 +31,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
-        quantity={{ min: 3 }}
+        quantity={{ min: 3, max: 20 }}
         allowQuantitySelection
       />
       <MultiVariantSelect
@@ -48,6 +42,9 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
       <MultiVariantSelect
@@ -58,6 +55,9 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
       <SectionHeader
@@ -72,6 +72,9 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
       <MultiVariantSelect
@@ -82,6 +85,9 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
 
@@ -94,6 +100,9 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
 
@@ -106,69 +115,26 @@ const OrderInfo = (props: OrderInfoProps) => {
           label: flavour,
         }))}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection
       />
 
-      <SectionHeader title="Bundles" />
+      <SectionHeader
+        title="The Nutbaker Pass"
+        subtitle="Bulk orders for granola, get them delivered as and when you like!"
+      />
       <MultiVariantSelect
-        title="The Nutbaker Pass - Bulk orders for granola, get them delivered as and when you like!"
+        title="The Nutbaker Pass"
         subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details and flavour choices."
         options={NUTBAKER_PASS_OPTIONS}
         onChange={() => {}}
+        quantity={{
+          max: MAX_QUANTITY,
+        }}
         allowQuantitySelection={false}
       />
-      <MultiVariantSelect
-        title="Granola + Oatmeal Cookies"
-        subtitle="1 for $20, 2 for $40, 3 for $56"
-        options={[
-          {
-            productCode: "GRANOLA_OATMEAL_COOKIES_BUNDLE",
-            label: "1 Pack 200g Granola + 1 Pack Oatmeal Cookies",
-          },
-        ]}
-        onChange={(selections) => {
-          setShowGranolaOatmealCookiesBundleOptions(selections.length > 0);
-          if (selections.length > 0) {
-            setGranolaOatmealBundleQty(selections[0].quantity);
-          }
-        }}
-        allowQuantitySelection={true}
-        singleItemMaxQty={3}
-      />
-      {showGranolaOatmealCookiesBundleOptions && (
-        <MultiVariantSelect
-          title="Granola Flavours"
-          subtitle="For Granola + Oatmeal Cookies Bundle"
-          options={GRANOLA_FLAVOURS.map((flavour) => ({
-            productCode: "PLACEHOLDER",
-            label: flavour,
-          }))}
-          onChange={() => {}}
-          allowQuantitySelection
-          quantity={{
-            max: granolaOatmealBundleQty,
-            min: granolaOatmealBundleQty,
-            validateZero: true,
-          }}
-        />
-      )}
-      {showGranolaOatmealCookiesBundleOptions && (
-        <MultiVariantSelect
-          title="Oatmeal Cookies Flavour"
-          subtitle="For Granola + Oatmeal Cookies Bundle"
-          options={OATMEAL_COOKIE_FLAVOURS.map((flavour) => ({
-            productCode: "PLACEHOLDER",
-            label: flavour,
-          }))}
-          onChange={() => {}}
-          allowQuantitySelection
-          quantity={{
-            max: granolaOatmealBundleQty,
-            min: granolaOatmealBundleQty,
-            validateZero: true,
-          }}
-        />
-      )}
 
       <div />
     </>

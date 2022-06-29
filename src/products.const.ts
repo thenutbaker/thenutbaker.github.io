@@ -1,3 +1,4 @@
+export const MAX_QUANTITY = 20;
 export const GRANOLA_FLAVOURS = [
   "Original",
   "Dark Choc Sea Salt",
