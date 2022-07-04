@@ -79,7 +79,8 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
       setError("");
     }
   }, [totalQuantity, quantity, hasSomeChecked]);
-
+  console.log(items);
+  console.log(items?.["GRANOLA_50"]?.["Original"]);
   return (
     <Paper
       sx={{
@@ -136,7 +137,8 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
               if (innerOption.label === option.label) {
                 return sum;
               }
-              const qty = items[option.productCode]?.[option.label] ?? 0;
+              const qty =
+                items[innerOption.productCode]?.[innerOption.label] ?? 0;
               return sum + qty;
             }, 0);
             const maxAllowedQty = Math.min(
