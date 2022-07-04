@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Items } from "../App.types";
 import { ProductCode } from "../products.const";
 
 type MultiVariantSelectOption = {
@@ -15,7 +16,7 @@ type MultiVariantSelectOption = {
   label: string;
 };
 
-type MultiVariantSelectSelection = {
+export type MultiVariantSelectSelection = {
   productCode: ProductCode;
   label: string;
   quantity: number;
@@ -25,7 +26,6 @@ type MultiVariantSelectProps = {
   title: string;
   subtitle?: string;
   options: MultiVariantSelectOption[];
-  onChange: (selections: MultiVariantSelectSelection[]) => void;
   allowQuantitySelection: boolean;
   quantity?: {
     min?: number;
@@ -33,6 +33,8 @@ type MultiVariantSelectProps = {
     validateZero?: boolean;
   };
   singleItemMaxQty?: number;
+  items: Items;
+  setItems: React.Dispatch<React.SetStateAction<Items>>;
 };
 
 const OptionsContainer = styled.div`
@@ -47,31 +49,28 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
     options,
     allowQuantitySelection,
     quantity,
-    onChange,
     singleItemMaxQty,
+    items,
+    setItems,
   } = props;
   if (new Set(options.map((option) => option.label)).size !== options.length) {
     throw new Error("incorrect options - labels are not unique");
   }
 
-  const [checkedMap, setCheckedMap] = useState(
-    options.reduce<Record<string, boolean>>((acc, option) => {
-      acc[option.label] = false;
-      return acc;
-    }, {})
-  );
-  const [quantityMap, setQuantityMap] = useState<Record<string, number>>({});
   const [error, setError] = useState("");
-  const totalQuantity = Object.values(quantityMap).reduce(
-    (acc, val) => acc + val,
-    0
+
+  const totalQuantity = options.reduce((sum, option) => {
+    const qty = items[option.productCode]?.[option.label] ?? 0;
+    return sum + qty;
+  }, 0);
+  const hasSomeChecked = options.some(
+    (option) => (items[option.productCode]?.[option.label] ?? 0) > 0
   );
 
   useEffect(() => {
     if (
       totalQuantity < (quantity?.min ?? 0) &&
-      (Object.values(checkedMap).some((checked) => checked) ||
-        quantity?.validateZero)
+      (hasSomeChecked || quantity?.validateZero)
     ) {
       setError(`Minimum quantity is ${quantity?.min ?? 0}`);
     } else if (totalQuantity > (quantity?.max ?? Number.MAX_SAFE_INTEGER)) {
@@ -79,25 +78,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
     } else {
       setError("");
     }
-  }, [totalQuantity, quantity, checkedMap, onChange]);
-
-  useEffect(() => {
-    onChange(
-      Object.keys(checkedMap)
-        .filter((label) => checkedMap[label])
-        .map((label) => {
-          const option = options.find((option) => option.label === label);
-          if (!option) {
-            throw new Error(`could not find option with label ${label}`);
-          }
-          return {
-            productCode: option.productCode,
-            label,
-            quantity: quantityMap[label],
-          };
-        })
-    );
-  }, [checkedMap, options, quantityMap]);
+  }, [totalQuantity, quantity, hasSomeChecked]);
 
   return (
     <Paper
@@ -114,29 +95,50 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
       elevation={3}
     >
       <>
-        <Typography sx={{ fontSize: "1.2em", fontWeight: "medium" }}>
+        <Typography
+          sx={{
+            fontSize: "1em",
+            fontWeight: "medium",
+            "@media(min-width: 780px)": {
+              fontSize: "1.2em",
+            },
+          }}
+        >
           {title}
         </Typography>
         <Typography
           sx={{
-            fontSize: "0.9em",
+            fontSize: "0.8em",
             marginBottom: "0.5em",
+            "@media(min-width: 780px)": {
+              fontSize: "0.9em",
+            },
           }}
         >
           {subtitle}
         </Typography>
         {error.length > 0 && (
-          <Typography sx={{ fontSize: "0.9em", color: "red" }}>
+          <Typography
+            sx={{
+              fontSize: "0.8em",
+              color: "red",
+              "@media(min-width: 780px)": {
+                fontSize: "0.9em",
+              },
+            }}
+          >
             {error}
           </Typography>
         )}
         <OptionsContainer>
           {options.map((option) => {
-            const qtyOfOthers = Object.keys(quantityMap).reduce(
-              (sum, label) =>
-                label === option.label ? sum : sum + (quantityMap[label] ?? 0),
-              0
-            );
+            const qtyOfOthers = options.reduce((sum, innerOption) => {
+              if (innerOption.label === option.label) {
+                return sum;
+              }
+              const qty = items[option.productCode]?.[option.label] ?? 0;
+              return sum + qty;
+            }, 0);
             const maxAllowedQty = Math.min(
               singleItemMaxQty ?? 10,
               Math.max(
@@ -147,48 +149,57 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
             return (
               <>
                 <FormControlLabel
-                  sx={{ gridColumnStart: "1", gridColumnEnd: "1" }}
+                  sx={{
+                    gridColumnStart: "1",
+                    gridColumnEnd: "1",
+                  }}
                   control={
                     <Checkbox
                       onChange={(e) => {
-                        setCheckedMap({
-                          ...checkedMap,
-                          [option.label]: e.target.checked,
+                        setItems((items) => {
+                          return {
+                            ...items,
+                            [option.productCode]: {
+                              ...items[option.productCode],
+                              [option.label]: e.target.checked ? 1 : undefined,
+                            },
+                          };
                         });
-                        if (e.target.checked) {
-                          setQuantityMap({
-                            ...quantityMap,
-                            [option.label]: 1,
-                          });
-                        } else {
-                          const { [option.label]: optval, ...rest } =
-                            quantityMap;
-                          setQuantityMap(rest);
-                        }
                       }}
                     />
                   }
                   label={option.label}
-                  checked={checkedMap[option.label]}
-                  disabled={maxAllowedQty <= 0 && !checkedMap[option.label]}
+                  checked={
+                    items[option.productCode]?.[option.label] ? true : false
+                  }
+                  disabled={
+                    maxAllowedQty <= 0 &&
+                    !items[option.productCode]?.[option.label]
+                  }
                 />
-                {checkedMap[option.label] && allowQuantitySelection && (
-                  <Select
-                    defaultValue={1}
-                    value={quantityMap[option.label] ?? 1}
-                    sx={{ gridColumnStart: "2", marginBottom: "0.5em" }}
-                    onChange={(e) =>
-                      setQuantityMap({
-                        ...quantityMap,
-                        [option.label]: e.target.value as number,
-                      })
-                    }
-                  >
-                    {[...Array(maxAllowedQty).keys()].map((i: number) => (
-                      <MenuItem value={i + 1}>{i + 1}</MenuItem>
-                    ))}
-                  </Select>
-                )}
+                {items[option.productCode]?.[option.label] &&
+                  allowQuantitySelection && (
+                    <Select
+                      defaultValue={1}
+                      value={items[option.productCode]?.[option.label] ?? 1}
+                      sx={{ gridColumnStart: "2", marginBottom: "0.5em" }}
+                      onChange={(e) => {
+                        setItems((items) => {
+                          return {
+                            ...items,
+                            [option.productCode]: {
+                              ...items[option.productCode],
+                              [option.label]: e.target.value,
+                            },
+                          };
+                        });
+                      }}
+                    >
+                      {[...Array(maxAllowedQty).keys()].map((i: number) => (
+                        <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                      ))}
+                    </Select>
+                  )}
               </>
             );
           })}

@@ -9,7 +9,7 @@ const Checkout = (props: CheckoutProps) => {
   return (
     <>
       Checkout
-      <Button onClick={() => setPage("order")}>Back</Button>
+      <Button onClick={() => setPage("collection")}>Back</Button>
     </>
   );
 };

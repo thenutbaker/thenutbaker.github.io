@@ -84,6 +84,9 @@ export const PRODUCTS: Record<ProductCode, Product> = {
      * 7 for $20
      */
     price: (quantity: number) => {
+      if (quantity < 3) {
+        return 0;
+      }
       let remainingQuantity = quantity;
       let totalPrice = 0;
       let numBundlesOf7 = Math.floor(quantity / 7);
@@ -124,7 +127,7 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       const remainder = quantity % 4;
       switch (remainder) {
         case 0:
-          return numBundlesOf4 * 4000;
+          return numBundlesOf4 * 4500;
         case 1:
           return numBundlesOf4 * 4000 + 1300;
         case 2:
@@ -147,7 +150,7 @@ export const PRODUCTS: Record<ProductCode, Product> = {
         case 1:
           return numBundlesOf4 * 8000 + 2500;
         case 2:
-          return numBundlesOf4 * 8000 + 4000;
+          return numBundlesOf4 * 8000 + 4500;
         case 3:
           return numBundlesOf4 * 8000 + 6500;
         default:

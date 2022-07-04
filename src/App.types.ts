@@ -1,9 +1,5 @@
 import { ProductCode } from "./products.const";
 
-export type Item = {
-  productCode: ProductCode;
-  variant: string;
-  quantity: number;
-};
+export type Items = Partial<Record<ProductCode, Record<string, number>>>;
 
-export type Page = "order" | "checkout" | "success";
+export type Page = "order" | "collection" | "checkout" | "success";

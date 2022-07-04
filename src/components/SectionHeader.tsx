@@ -22,10 +22,13 @@ const SectionHeader = (props: SectionHeaderProps) => {
     >
       <Typography
         sx={{
-          fontSize: "2em",
+          fontSize: "1.1em",
           fontWeight: "bold",
           lineHeight: "auto",
           margin: "auto",
+          "@media(min-width: 780px)": {
+            fontSize: "2em",
+          },
         }}
       >
         {title}
@@ -33,9 +36,12 @@ const SectionHeader = (props: SectionHeaderProps) => {
       {subtitle && (
         <Typography
           sx={{
-            fontSize: "1em",
+            fontSize: "0.8em",
             lineHeight: "auto",
             margin: "auto",
+            "@media(min-width: 780px)": {
+              fontSize: "1em",
+            },
           }}
         >
           {subtitle}
