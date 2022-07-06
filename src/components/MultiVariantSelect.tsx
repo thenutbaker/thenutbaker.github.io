@@ -35,6 +35,7 @@ type MultiVariantSelectProps = {
   singleItemMaxQty?: number;
   items: Items;
   setItems: React.Dispatch<React.SetStateAction<Items>>;
+  setErrorMap: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 };
 
 const OptionsContainer = styled.div`
@@ -52,6 +53,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
     singleItemMaxQty,
     items,
     setItems,
+    setErrorMap,
   } = props;
   if (new Set(options.map((option) => option.label)).size !== options.length) {
     throw new Error("incorrect options - labels are not unique");
@@ -73,14 +75,25 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
       (hasSomeChecked || quantity?.validateZero)
     ) {
       setError(`Minimum quantity is ${quantity?.min ?? 0}`);
+      setErrorMap((prevErrorMap) => ({
+        ...prevErrorMap,
+        [title]: true,
+      }));
     } else if (totalQuantity > (quantity?.max ?? Number.MAX_SAFE_INTEGER)) {
       setError(`Maximum quantity is ${quantity?.max}`);
+      setErrorMap((prevErrorMap) => ({
+        ...prevErrorMap,
+        [title]: true,
+      }));
     } else {
       setError("");
+      setErrorMap((prevErrorMap) => ({
+        ...prevErrorMap,
+        [title]: false,
+      }));
     }
   }, [totalQuantity, quantity, hasSomeChecked]);
-  console.log(items);
-  console.log(items?.["GRANOLA_50"]?.["Original"]);
+
   return (
     <Paper
       sx={{

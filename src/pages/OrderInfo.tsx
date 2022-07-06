@@ -1,4 +1,5 @@
 import { Button, Paper, Typography } from "@mui/material";
+import { useState } from "react";
 import { Items, Page } from "../App.types";
 import MultiVariantSelect from "../components/MultiVariantSelect";
 import SectionHeader from "../components/SectionHeader";
@@ -9,6 +10,7 @@ import {
   MUFFIN_FLAVOURS,
   NUTBAKER_PASS_OPTIONS,
   OATMEAL_COOKIE_FLAVOURS,
+  ProductCode,
 } from "../products.const";
 import { calculatePrice } from "../utils";
 
@@ -19,7 +21,20 @@ type OrderInfoProps = {
 };
 
 const OrderInfo = (props: OrderInfoProps) => {
-  const { setItems, items } = props;
+  const { setItems, items, setPage } = props;
+  const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
+
+  const numItems = Object.keys(items).reduce<number>((sum, productCode) => {
+    const itemsOfProduct = items[productCode as ProductCode];
+    if (!itemsOfProduct) {
+      return sum;
+    }
+    return (
+      sum +
+      Object.values(itemsOfProduct).reduce((sum, qty) => sum + (qty ?? 0), 0)
+    );
+  }, 0);
+
   return (
     <>
       <SectionHeader
@@ -28,6 +43,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         extraMarginTop={false}
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="50g Granola"
@@ -40,6 +56,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         allowQuantitySelection
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="200g Granola"
@@ -54,6 +71,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         allowQuantitySelection
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="400g Granola"
@@ -72,6 +90,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         subtitle="Grain-free, higher in protein and healthy fats"
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="200g Granola (Low Carb)"
@@ -86,6 +105,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         allowQuantitySelection
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="400g Granola (Low Carb)"
@@ -102,6 +122,7 @@ const OrderInfo = (props: OrderInfoProps) => {
 
       <SectionHeader title="Oatmeal Cookies" />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="170g (7-8 cookies)"
@@ -118,6 +139,7 @@ const OrderInfo = (props: OrderInfoProps) => {
 
       <SectionHeader title="Muffins" />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="Box of 6"
@@ -137,6 +159,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         subtitle="Bulk orders for granola, get them delivered as and when you like!"
       />
       <MultiVariantSelect
+        setErrorMap={setErrorMap}
         setItems={setItems}
         items={items}
         title="The Nutbaker Pass"
@@ -147,6 +170,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         }}
         allowQuantitySelection={false}
       />
+
       <Paper
         sx={{
           backgroundColor: "#D2973D",
@@ -169,6 +193,13 @@ const OrderInfo = (props: OrderInfoProps) => {
         >
           Total: {calculatePrice(items)}
         </Typography>
+        {numItems > 20 && (
+          <Typography
+            sx={{ color: "#F60404", marginTop: "auto", marginBottom: "auto" }}
+          >
+            For orders with more than 20 items, please contact us directly
+          </Typography>
+        )}
         <Button
           sx={{
             backgroundColor: "#F5D998",
@@ -176,6 +207,12 @@ const OrderInfo = (props: OrderInfoProps) => {
             padding: "0.5em",
             marginLeft: "0.5em",
           }}
+          onClick={() => setPage("collection")}
+          disabled={
+            numItems === 0 ||
+            numItems > 20 ||
+            Object.values(errorMap).some((hasError) => hasError)
+          }
         >
           Next: Collection Details
         </Button>
