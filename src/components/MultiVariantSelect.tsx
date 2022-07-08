@@ -75,24 +75,27 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
       (hasSomeChecked || quantity?.validateZero)
     ) {
       setError(`Minimum quantity is ${quantity?.min ?? 0}`);
-      setErrorMap((prevErrorMap) => ({
-        ...prevErrorMap,
-        [title]: true,
-      }));
     } else if (totalQuantity > (quantity?.max ?? Number.MAX_SAFE_INTEGER)) {
       setError(`Maximum quantity is ${quantity?.max}`);
-      setErrorMap((prevErrorMap) => ({
-        ...prevErrorMap,
-        [title]: true,
-      }));
     } else {
       setError("");
-      setErrorMap((prevErrorMap) => ({
-        ...prevErrorMap,
-        [title]: false,
-      }));
     }
   }, [totalQuantity, quantity, hasSomeChecked]);
+
+  useEffect(() => {
+    setErrorMap((prev) => {
+      if (error?.length) {
+        return {
+          ...prev,
+          [title]: true,
+        };
+      }
+      return {
+        ...prev,
+        [title]: false,
+      };
+    });
+  }, [error, setErrorMap, title]);
 
   return (
     <Paper
@@ -197,7 +200,14 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                     <Select
                       defaultValue={1}
                       value={items[option.productCode]?.[option.label] ?? 1}
-                      sx={{ gridColumnStart: "2", marginBottom: "0.5em" }}
+                      sx={{
+                        gridColumnStart: "2",
+                        marginBottom: "0.5em",
+                        padding: "0em",
+                        ".MuiSelect-select": {
+                          padding: "0em 0.5em",
+                        },
+                      }}
                       onChange={(e) => {
                         setItems((items) => {
                           return {

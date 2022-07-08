@@ -7,7 +7,7 @@ import OrderInfo from "./pages/OrderInfo";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import Checkout from "./pages/Checkout";
-import { Items, Page } from "./App.types";
+import { CollectionInfo, Items, Page } from "./App.types";
 import Success from "./pages/Success";
 import { Link, Typography } from "@mui/material";
 import Collection from "./pages/Collection";
@@ -44,6 +44,15 @@ const Logo = styled.img`
 
 function App() {
   const [items, setItems] = useState<Items>({});
+  const [collectionInfo, setCollectionInfo] = useState<CollectionInfo>({
+    name: "",
+    contactNumber: "",
+    collectionMode: "self-collection",
+    selfCollectionDate: new Date(),
+    deliveryDate: new Date(),
+    isGift: false,
+  });
+
   const [page, setPage] = useState<Page>("order");
   return (
     <Container>
@@ -106,7 +115,13 @@ function App() {
       {page === "order" && (
         <OrderInfo setItems={setItems} setPage={setPage} items={items} />
       )}
-      {page === "collection" && <Collection setPage={setPage} />}
+      {page === "collection" && (
+        <Collection
+          setPage={setPage}
+          collectionInfo={collectionInfo}
+          setCollectionInfo={setCollectionInfo}
+        />
+      )}
       {page === "checkout" && <Checkout setPage={setPage} />}
       {page === "success" && <Success />}
     </Container>
