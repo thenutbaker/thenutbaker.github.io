@@ -1,8 +1,11 @@
 import { Items } from "./App.types";
 import { ProductCode, PRODUCTS } from "./products.const";
 
-export const calculatePrice = (items: Items) => {
-  const totalInMinor = Object.keys(items).reduce((sum, productCode) => {
+export const formatMinor = (minor: number): string => {
+  return `$${(minor / 100).toFixed(2)}`;
+};
+export const calculatePriceMinor = (items: Items): number => {
+  return Object.keys(items).reduce((sum, productCode) => {
     const product = PRODUCTS[productCode as ProductCode];
     const itemsOfProduct = items[productCode as ProductCode];
     if (!itemsOfProduct) {
@@ -14,5 +17,8 @@ export const calculatePrice = (items: Items) => {
     );
     return sum + product.price(qtyOfProduct);
   }, 0);
-  return `$${(totalInMinor / 100).toFixed(2)}`;
+};
+
+export const calculatePriceString = (items: Items): string => {
+  return formatMinor(calculatePriceMinor(items));
 };

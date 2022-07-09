@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import {
   Button,
   Checkbox,
@@ -19,6 +20,13 @@ type CollectionProps = {
   setCollectionInfo: React.Dispatch<React.SetStateAction<CollectionInfo>>;
 };
 
+const Container = styled.div`
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+`;
+
 const Checkout = (props: CollectionProps) => {
   const { setPage, collectionInfo, setCollectionInfo } = props;
 
@@ -27,7 +35,7 @@ const Checkout = (props: CollectionProps) => {
       return false;
     }
     const allowedDays =
-      collectionInfo.collectionMode === "self-collection" ? [2, 4, 6] : [3, 7];
+      collectionInfo.collectionMode === "self-collection" ? [2, 4, 6] : [0, 3];
     return allowedDays.includes(moment(date).day());
   };
 
@@ -38,171 +46,176 @@ const Checkout = (props: CollectionProps) => {
 
   return (
     <>
-      <Paper
-        sx={{
-          gridColumnStart: "2",
-          marginTop: "1em",
-          padding: "1em",
-          maxHeight: "fit-content",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography
+      <Container>
+        <Paper
           sx={{
-            fontSize: "1em",
-            fontWeight: "medium",
-            "@media(min-width: 780px)": {
-              fontSize: "1.2em",
-            },
+            gridColumnStart: "2",
+            marginTop: "1em",
+            padding: "1em",
+            maxHeight: "fit-content",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
-          Contact Details
-        </Typography>
-        <TextField
-          label="Name"
-          required
-          value={collectionInfo.name}
-          sx={{ marginBottom: "1em" }}
-          onChange={(e) =>
-            setCollectionInfo((prev) => ({
-              ...prev,
-              name: e.target.value,
-            }))
-          }
-        ></TextField>
-        <TextField
-          label="Contact Number"
-          required
-          value={collectionInfo.contactNumber}
-          type="tel"
-          onChange={(e) => {
-            const sanitized = e.target.value.replace(/\D/, "");
-            if (sanitized.length > 8) {
-              return;
-            }
-            setCollectionInfo((prev) => ({
-              ...prev,
-              contactNumber: sanitized,
-            }));
-          }}
-        ></TextField>
-        <FormControlLabel
-          sx={{
-            gridColumnStart: "1",
-            gridColumnEnd: "1",
-          }}
-          control={
-            <Checkbox
-              onChange={(e) =>
-                setCollectionInfo((prev) => ({
-                  ...prev,
-                  isGift: e.target.checked,
-                }))
-              }
-            />
-          }
-          label="I'm buying this as a gift"
-          checked={collectionInfo.isGift}
-        />
-        {collectionInfo.isGift && (
+          <Typography
+            sx={{
+              fontSize: "1em",
+              fontWeight: "medium",
+              "@media(min-width: 780px)": {
+                fontSize: "1.2em",
+              },
+            }}
+          >
+            Contact Details
+          </Typography>
           <TextField
-            label="Gift recipient's name"
+            label="Name"
             required
-            value={collectionInfo.giftRecipientName}
+            value={collectionInfo.name}
+            sx={{ marginBottom: "1em" }}
             onChange={(e) =>
               setCollectionInfo((prev) => ({
                 ...prev,
-                giftRecipientName: e.target.value,
+                name: e.target.value,
               }))
             }
           ></TextField>
-        )}
-      </Paper>
-
-      <Paper
-        sx={{
-          gridColumnStart: "2",
-          marginTop: "1em",
-          padding: "1em",
-          maxHeight: "fit-content",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: "1em",
-            fontWeight: "medium",
-            "@media(min-width: 780px)": {
-              fontSize: "1.2em",
-            },
-          }}
-        >
-          Delivery/Collection Details
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "0.8em",
-            marginBottom: "0.5em",
-            "@media(min-width: 780px)": {
-              fontSize: "0.9em",
-            },
-          }}
-        >
-          A delivery fee of $7 will be charged for orders below $50.
-          Self-collection is free of charge.
-        </Typography>
-        <RadioGroup
-          onChange={(e) =>
-            setCollectionInfo((prev) => ({
-              ...prev,
-              collectionMode: e.target.value as "self-collection" | "delivery",
-            }))
-          }
-          value={collectionInfo.collectionMode}
-        >
-          <FormControlLabel
-            label="Self-collection at 37A Pine Lane (Tue/Thu/Sat, 6pm-9pm)"
-            control={<Radio />}
-            value="self-collection"
-          />
-          <FormControlLabel
-            label="Delivery (Wed/Sun)"
-            control={<Radio />}
-            value="delivery"
-          />
-        </RadioGroup>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          <DatePicker
-            label={
-              collectionInfo.collectionMode === "self-collection"
-                ? "Collection Date"
-                : "Delivery Date"
-            }
-            onChange={(date) => {
+          <TextField
+            label="Contact Number"
+            required
+            value={collectionInfo.contactNumber}
+            type="tel"
+            onChange={(e) => {
+              const sanitized = e.target.value.replace(/\D/, "");
+              if (sanitized.length > 8) {
+                return;
+              }
               setCollectionInfo((prev) => ({
                 ...prev,
-                [collectionInfo.collectionMode === "self-collection"
-                  ? "selfCollectionDate"
-                  : "deliveryDate"]: moment(date).toDate(),
+                contactNumber: sanitized,
               }));
             }}
-            value={
-              collectionInfo.collectionMode === "self-collection"
-                ? collectionInfo.selfCollectionDate
-                : collectionInfo.deliveryDate
-            }
-            disablePast
-            shouldDisableDate={(date) => {
-              return !isDateValid(date);
+          ></TextField>
+          <FormControlLabel
+            sx={{
+              gridColumnStart: "1",
+              gridColumnEnd: "1",
             }}
-            renderInput={(params) => <TextField {...params} />}
+            control={
+              <Checkbox
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    isGift: e.target.checked,
+                  }))
+                }
+              />
+            }
+            label="I'm buying this as a gift"
+            checked={collectionInfo.isGift}
           />
-        </LocalizationProvider>
-      </Paper>
+          {collectionInfo.isGift && (
+            <TextField
+              label="Gift recipient's name"
+              required
+              value={collectionInfo.giftRecipientName}
+              onChange={(e) =>
+                setCollectionInfo((prev) => ({
+                  ...prev,
+                  giftRecipientName: e.target.value,
+                }))
+              }
+            ></TextField>
+          )}
+        </Paper>
+
+        <Paper
+          sx={{
+            gridColumnStart: "2",
+            marginTop: "1em",
+            marginBottom: "2em",
+            padding: "1em",
+            maxHeight: "fit-content",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "1em",
+              fontWeight: "medium",
+              "@media(min-width: 780px)": {
+                fontSize: "1.2em",
+              },
+            }}
+          >
+            Delivery/Collection Details
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "0.8em",
+              marginBottom: "0.5em",
+              "@media(min-width: 780px)": {
+                fontSize: "0.9em",
+              },
+            }}
+          >
+            A delivery fee of $7 will be charged for orders below $50.
+            Self-collection is free of charge.
+          </Typography>
+          <RadioGroup
+            onChange={(e) =>
+              setCollectionInfo((prev) => ({
+                ...prev,
+                collectionMode: e.target.value as
+                  | "self-collection"
+                  | "delivery",
+              }))
+            }
+            value={collectionInfo.collectionMode}
+          >
+            <FormControlLabel
+              label="Self-collection at 37A Pine Lane (Tue/Thu/Sat, 6pm-9pm)"
+              control={<Radio />}
+              value="self-collection"
+            />
+            <FormControlLabel
+              label="Delivery (Wed/Sun)"
+              control={<Radio />}
+              value="delivery"
+            />
+          </RadioGroup>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              label={
+                collectionInfo.collectionMode === "self-collection"
+                  ? "Collection Date"
+                  : "Delivery Date"
+              }
+              onChange={(date) => {
+                setCollectionInfo((prev) => ({
+                  ...prev,
+                  [collectionInfo.collectionMode === "self-collection"
+                    ? "selfCollectionDate"
+                    : "deliveryDate"]: moment(date).toDate(),
+                }));
+              }}
+              value={
+                collectionInfo.collectionMode === "self-collection"
+                  ? collectionInfo.selfCollectionDate
+                  : collectionInfo.deliveryDate
+              }
+              disablePast
+              shouldDisableDate={(date) => {
+                return !isDateValid(date);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Paper>
+      </Container>
 
       <Paper
         sx={{
@@ -214,8 +227,7 @@ const Checkout = (props: CollectionProps) => {
           display: "flex",
           marginBottom: "0",
           justifyContent: "space-between",
-          alignContent: "center",
-          maxHeight: "fit-content",
+          height: "fit-content",
           position: "sticky",
           bottom: 0,
           right: 0,
@@ -241,7 +253,9 @@ const Checkout = (props: CollectionProps) => {
             padding: "0.5em",
             marginLeft: "0.5em",
           }}
-          onClick={() => {}}
+          onClick={() => {
+            setPage("checkout");
+          }}
           disabled={
             !selectedDateValid ||
             !collectionInfo.name.length ||

@@ -175,13 +175,35 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                     <Checkbox
                       onChange={(e) => {
                         setItems((items) => {
-                          return {
-                            ...items,
-                            [option.productCode]: {
-                              ...items[option.productCode],
-                              [option.label]: e.target.checked ? 1 : undefined,
-                            },
-                          };
+                          if (e.target.checked) {
+                            return {
+                              ...items,
+                              [option.productCode]: {
+                                ...items[option.productCode],
+                                [option.label]: 1,
+                              },
+                            };
+                          } else {
+                            const {
+                              [option.productCode]: itemsOfProduct,
+                              ...restItems
+                            } = items;
+                            if (!itemsOfProduct) {
+                              return items;
+                            }
+                            if (Object.keys(itemsOfProduct).length === 1) {
+                              return restItems;
+                            }
+
+                            const {
+                              [option.label]: unselectedVariant,
+                              ...restVariants
+                            } = itemsOfProduct;
+                            return {
+                              ...restItems,
+                              [option.productCode]: restVariants,
+                            };
+                          }
                         });
                       }}
                     />

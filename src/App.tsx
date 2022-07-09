@@ -17,15 +17,27 @@ const Container = styled.div`
   grid-template-columns: 1fr 5fr 1fr;
   background-color: #5a777b;
   min-height: 100vh;
+  align-items: start;
+  grid-template-rows: max-content 1fr max-content;
+  grid-template-areas:
+    ". header ."
+    ". body ."
+    "footer footer footer";
+  @media (min-width: 780px) {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
 `;
 
 const HeaderContainer = styled.div`
+  grid-area: header;
+  display: flex;
+  flex-direction: column;
+`;
+const HeaderTextContainer = styled.div`
   display: inline;
   flex-direction: row;
   justify-content: center;
   margin-top: 1em;
-  grid-column-start: 2;
-  grid-column-end: 2;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -35,11 +47,10 @@ const Logo = styled.img`
   @media (min-width: 780px) {
     height: 10em;
   }
-  grid-column-start: 2;
-  grid-column-end: 2;
   margin-top: 1em;
   margin-left: auto;
   margin-right: auto;
+  grid-area: header;
 `;
 
 function App() {
@@ -56,61 +67,63 @@ function App() {
   const [page, setPage] = useState<Page>("order");
   return (
     <Container>
-      <Logo src="/transparent.png" />
       <HeaderContainer>
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: "0.9em",
-            "@media (min-width: 780px)": {
-              fontSize: "1em",
-            },
-          }}
-          display="inline-block"
-        >
-          For details on ingredients, please refer to the "Menu" story tab on
-          our&nbsp;
-        </Typography>
-        <Link
-          href="https://www.instagram.com/the_nutbaker_sg/?igshid=YmMyMTA2M2Y="
-          target="_blank"
-          color="#F5D998"
-          display="inline-block"
-          sx={{
-            fontSize: "0.9em",
-            "@media (min-width: 780px)": {
-              fontSize: "1em",
-            },
-          }}
-        >
-          Instagram
-        </Link>
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: "0.9em",
-            "@media (min-width: 780px)": {
-              fontSize: "1em",
-            },
-          }}
-          display="inline-block"
-        >
-          &nbsp;page
-        </Typography>
-      </HeaderContainer>
-      <HeaderContainer>
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: "0.9em",
-            "@media (min-width: 780px)": {
-              fontSize: "1em",
-            },
-          }}
-          display="inline-block"
-        >
-          For bulk orders (more than 20 items), please contact us directly.
-        </Typography>
+        <Logo src="/transparent.png" />
+        <HeaderTextContainer>
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "0.9em",
+              "@media (min-width: 780px)": {
+                fontSize: "1em",
+              },
+            }}
+            display="inline-block"
+          >
+            For details on ingredients, please refer to the "Menu" story tab on
+            our&nbsp;
+          </Typography>
+          <Link
+            href="https://www.instagram.com/the_nutbaker_sg/?igshid=YmMyMTA2M2Y="
+            target="_blank"
+            color="#F5D998"
+            display="inline-block"
+            sx={{
+              fontSize: "0.9em",
+              "@media (min-width: 780px)": {
+                fontSize: "1em",
+              },
+            }}
+          >
+            Instagram
+          </Link>
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "0.9em",
+              "@media (min-width: 780px)": {
+                fontSize: "1em",
+              },
+            }}
+            display="inline-block"
+          >
+            &nbsp;page
+          </Typography>
+        </HeaderTextContainer>
+        <HeaderTextContainer>
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "0.9em",
+              "@media (min-width: 780px)": {
+                fontSize: "1em",
+              },
+            }}
+            display="inline-block"
+          >
+            For bulk orders (more than 20 items), please contact us directly.
+          </Typography>
+        </HeaderTextContainer>
       </HeaderContainer>
       {page === "order" && (
         <OrderInfo setItems={setItems} setPage={setPage} items={items} />
@@ -122,7 +135,13 @@ function App() {
           setCollectionInfo={setCollectionInfo}
         />
       )}
-      {page === "checkout" && <Checkout setPage={setPage} />}
+      {page === "checkout" && (
+        <Checkout
+          setPage={setPage}
+          collectionInfo={collectionInfo}
+          items={items}
+        />
+      )}
       {page === "success" && <Success />}
     </Container>
   );
