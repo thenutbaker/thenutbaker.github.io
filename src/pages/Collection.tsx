@@ -27,7 +27,7 @@ const Checkout = (props: CollectionProps) => {
       return false;
     }
     const allowedDays =
-      collectionInfo.collectionMode === "self-collection" ? [1, 3, 5] : [3, 7];
+      collectionInfo.collectionMode === "self-collection" ? [2, 4, 6] : [3, 7];
     return allowedDays.includes(moment(date).day());
   };
 
@@ -143,6 +143,18 @@ const Checkout = (props: CollectionProps) => {
         >
           Delivery/Collection Details
         </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.8em",
+            marginBottom: "0.5em",
+            "@media(min-width: 780px)": {
+              fontSize: "0.9em",
+            },
+          }}
+        >
+          A delivery fee of $7 will be charged for orders below $50.
+          Self-collection is free of charge.
+        </Typography>
         <RadioGroup
           onChange={(e) =>
             setCollectionInfo((prev) => ({
@@ -153,12 +165,12 @@ const Checkout = (props: CollectionProps) => {
           value={collectionInfo.collectionMode}
         >
           <FormControlLabel
-            label="Self-collection at 37A Pine Lane (Mon/Wed/Fri, 6pm-9pm)"
+            label="Self-collection at 37A Pine Lane (Tue/Thu/Sat, 6pm-9pm)"
             control={<Radio />}
             value="self-collection"
           />
           <FormControlLabel
-            label="Delivery (Tue/Thu/Sat)"
+            label="Delivery (Wed/Sun)"
             control={<Radio />}
             value="delivery"
           />
