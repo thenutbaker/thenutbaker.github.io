@@ -18,7 +18,8 @@ const Container = styled.div`
   background-color: #5a777b;
   min-height: 100vh;
   align-items: start;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: ${(props: { equalRows: boolean }) =>
+    props.equalRows ? "1fr 1fr 1fr" : "max-content 1fr max-content"};
   grid-template-areas:
     ". header ."
     ". body ."
@@ -61,70 +62,78 @@ function App() {
     collectionMode: "self-collection",
     selfCollectionDate: new Date(),
     deliveryDate: new Date(),
+    deliveryAddress: "",
+    unitNumber: "",
+    condoName: "",
     isGift: false,
   });
 
   const [page, setPage] = useState<Page>("order");
   return (
-    <Container>
-      <HeaderContainer>
-        <Logo src="/transparent.png" />
-        <HeaderTextContainer>
-          <Typography
-            sx={{
-              color: "white",
-              fontSize: "0.9em",
-              "@media (min-width: 780px)": {
-                fontSize: "1em",
-              },
-            }}
-            display="inline-block"
-          >
-            For details on ingredients, please refer to the "Menu" story tab on
-            our&nbsp;
-          </Typography>
-          <Link
-            href="https://www.instagram.com/the_nutbaker_sg/?igshid=YmMyMTA2M2Y="
-            target="_blank"
-            color="#F5D998"
-            display="inline-block"
-            sx={{
-              fontSize: "0.9em",
-              "@media (min-width: 780px)": {
-                fontSize: "1em",
-              },
-            }}
-          >
-            Instagram
-          </Link>
-          <Typography
-            sx={{
-              color: "white",
-              fontSize: "0.9em",
-              "@media (min-width: 780px)": {
-                fontSize: "1em",
-              },
-            }}
-            display="inline-block"
-          >
-            &nbsp;page
-          </Typography>
-        </HeaderTextContainer>
-        <HeaderTextContainer>
-          <Typography
-            sx={{
-              color: "white",
-              fontSize: "0.9em",
-              "@media (min-width: 780px)": {
-                fontSize: "1em",
-              },
-            }}
-            display="inline-block"
-          >
-            For bulk orders (more than 20 items), please contact us directly.
-          </Typography>
-        </HeaderTextContainer>
-      </HeaderContainer>
+    <Container equalRows={page === "success"}>
+      {page !== "success" && (
+        <HeaderContainer>
+          <Logo src="/transparent.png" />
+
+          <HeaderTextContainer>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
+              For details on ingredients, please refer to the "Menu" story tab
+              on our&nbsp;
+            </Typography>
+            <Link
+              href="https://www.instagram.com/the_nutbaker_sg/?igshid=YmMyMTA2M2Y="
+              target="_blank"
+              color="#F5D998"
+              display="inline-block"
+              sx={{
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+            >
+              Instagram
+            </Link>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
+              &nbsp;page
+            </Typography>
+          </HeaderTextContainer>
+          <HeaderTextContainer>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
+              For bulk orders (more than 20 items), or if you are purchasing
+              gifts for multiple recipients, please contact us directly.
+            </Typography>
+          </HeaderTextContainer>
+        </HeaderContainer>
+      )}
+
       {page === "order" && (
         <OrderInfo setItems={setItems} setPage={setPage} items={items} />
       )}

@@ -62,9 +62,7 @@ export type ProductCode =
   | "NUTBAKER_PASS_OCCASIONAL"
   | "NUTBAKER_PASS_REGULAR"
   | "NUTBAKER_PASS_SILVER"
-  | "NUTBAKER_PASS_GOLD"
-  | "GRANOLA_OATMEAL_COOKIES_BUNDLE"
-  | "PLACEHOLDER";
+  | "NUTBAKER_PASS_GOLD";
 
 type Product = {
   price: (quantity: number) => number;
@@ -72,10 +70,6 @@ type Product = {
 };
 
 export const PRODUCTS: Record<ProductCode, Product> = {
-  PLACEHOLDER: {
-    price: () => 0,
-    label: "placeholder",
-  },
   GRANOLA_50: {
     /**
      * 3 for $10
@@ -129,11 +123,11 @@ export const PRODUCTS: Record<ProductCode, Product> = {
         case 0:
           return numBundlesOf4 * 4500;
         case 1:
-          return numBundlesOf4 * 4000 + 1300;
+          return numBundlesOf4 * 4500 + 1300;
         case 2:
-          return numBundlesOf4 * 4000 + 2500;
+          return numBundlesOf4 * 4500 + 2500;
         case 3:
-          return numBundlesOf4 * 4000 + 3500;
+          return numBundlesOf4 * 4500 + 3500;
         default:
           return 99999999999999;
       }
@@ -216,22 +210,5 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTBAKER_PASS_GOLD: {
     price: (quantity: number) => quantity * 28500,
     label: "The Nutbaker Pass (Gold)",
-  },
-  GRANOLA_OATMEAL_COOKIES_BUNDLE: {
-    price: (quantity: number) => {
-      const numBundlesOf3 = Math.floor(quantity / 3);
-      const remainder = quantity % 3;
-      switch (remainder) {
-        case 0:
-          return numBundlesOf3 * 5600;
-        case 1:
-          return numBundlesOf3 * 5600 + 2000;
-        case 2:
-          return numBundlesOf3 * 5600 + 4000;
-        default:
-          return 99999999999999;
-      }
-    },
-    label: "Granola + Oatmeal Cookies Bundle",
   },
 };

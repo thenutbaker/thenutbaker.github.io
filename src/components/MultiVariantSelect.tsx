@@ -27,6 +27,7 @@ type MultiVariantSelectProps = {
   subtitle?: string;
   options: MultiVariantSelectOption[];
   allowQuantitySelection: boolean;
+  minSingleQuantity?: number;
   quantity?: {
     min?: number;
     max?: number;
@@ -51,10 +52,14 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
     allowQuantitySelection,
     quantity,
     singleItemMaxQty,
+    minSingleQuantity = 1,
     items,
     setItems,
     setErrorMap,
   } = props;
+  if (minSingleQuantity > (quantity?.max ?? Number.MAX_SAFE_INTEGER)) {
+    throw new Error("incorrect options - minSingleQuantity > quantity.max");
+  }
   if (new Set(options.map((option) => option.label)).size !== options.length) {
     throw new Error("incorrect options - labels are not unique");
   }
@@ -180,7 +185,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                               ...items,
                               [option.productCode]: {
                                 ...items[option.productCode],
-                                [option.label]: 1,
+                                [option.label]: minSingleQuantity,
                               },
                             };
                           } else {
@@ -220,8 +225,11 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                 {items[option.productCode]?.[option.label] &&
                   allowQuantitySelection && (
                     <Select
-                      defaultValue={1}
-                      value={items[option.productCode]?.[option.label] ?? 1}
+                      defaultValue={minSingleQuantity}
+                      value={
+                        items[option.productCode]?.[option.label] ??
+                        minSingleQuantity
+                      }
                       sx={{
                         gridColumnStart: "2",
                         marginBottom: "0.5em",
@@ -242,8 +250,12 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                         });
                       }}
                     >
-                      {[...Array(maxAllowedQty).keys()].map((i: number) => (
-                        <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                      {[
+                        ...Array(maxAllowedQty + 1 - minSingleQuantity).keys(),
+                      ].map((i: number) => (
+                        <MenuItem value={i + minSingleQuantity}>
+                          {i + minSingleQuantity}
+                        </MenuItem>
                       ))}
                     </Select>
                   )}

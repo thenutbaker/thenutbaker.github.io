@@ -56,12 +56,13 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="50g Granola"
-          subtitle="3 for $10, 4 for $13, 5 for $15, 7 for $20"
+          subtitle="3 for $10, 4 for $13, 5 for $15, 7 for $20. Minimum order of 3 packs per flavour"
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_50",
             label: flavour,
           }))}
           quantity={{ min: 3, max: 20 }}
+          minSingleQuantity={3}
           allowQuantitySelection
         />
         <MultiVariantSelect
@@ -198,10 +199,18 @@ const OrderInfo = (props: OrderInfoProps) => {
           right: 0,
           left: 0,
           gridArea: "footer",
+          zIndex: "1",
         }}
       >
         <Typography
-          sx={{ fontWeight: "medium", marginTop: "auto", marginBottom: "auto" }}
+          sx={{
+            fontWeight: "medium",
+            marginTop: "auto",
+            marginBottom: "auto",
+            "@media (min-width: 780px)": {
+              fontSize: "1.2em",
+            },
+          }}
         >
           Total: {calculatePriceString(items)}
         </Typography>
@@ -218,6 +227,9 @@ const OrderInfo = (props: OrderInfoProps) => {
             color: "black",
             padding: "0.5em",
             marginLeft: "0.5em",
+            "@media (min-width: 780px)": {
+              fontSize: "1.2em",
+            },
           }}
           onClick={() => setPage("collection")}
           disabled={

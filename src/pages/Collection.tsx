@@ -11,7 +11,9 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import axios from "axios";
 import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
 import { CollectionInfo, Page } from "../App.types";
 
 type CollectionProps = {
@@ -29,15 +31,62 @@ const Container = styled.div`
 
 const Checkout = (props: CollectionProps) => {
   const { setPage, collectionInfo, setCollectionInfo } = props;
+  const [backendPinged, setBackendPinged] = useState(false);
 
-  const isDateValid = (date: Date | undefined) => {
-    if (!date) {
-      return false;
+  useEffect(() => {
+    if (!backendPinged) {
+      axios
+        .get("https://nutbaker-form-backend.herokuapp.com")
+        .then(() => setBackendPinged(true))
+        .catch((err) => {
+          console.error(err);
+        });
     }
-    const allowedDays =
-      collectionInfo.collectionMode === "self-collection" ? [2, 4, 6] : [0, 3];
-    return allowedDays.includes(moment(date).day());
-  };
+  }, [backendPinged]);
+
+  const isDateValid = useCallback(
+    (date: Date | undefined) => {
+      if (!date) {
+        return false;
+      }
+      const allowedDays =
+        collectionInfo.collectionMode === "self-collection"
+          ? [2, 4, 6]
+          : [0, 3];
+      return allowedDays.includes(moment(date).day());
+    },
+    [collectionInfo.collectionMode]
+  );
+
+  useEffect(() => {
+    if (collectionInfo.collectionMode === "self-collection") {
+      let newSelfCollectionDate = collectionInfo.selfCollectionDate;
+      while (!isDateValid(newSelfCollectionDate)) {
+        newSelfCollectionDate = moment(newSelfCollectionDate)
+          .add(1, "day")
+          .toDate();
+      }
+      setCollectionInfo((prev) => ({
+        ...prev,
+        selfCollectionDate: newSelfCollectionDate,
+      }));
+    } else {
+      let newDeliveryDate = collectionInfo.deliveryDate;
+      while (!isDateValid(newDeliveryDate)) {
+        newDeliveryDate = moment(newDeliveryDate).add(1, "day").toDate();
+      }
+      setCollectionInfo((prev) => ({
+        ...prev,
+        deliveryDate: newDeliveryDate,
+      }));
+    }
+  }, [
+    collectionInfo.collectionMode,
+    collectionInfo.selfCollectionDate,
+    collectionInfo.deliveryDate,
+    setCollectionInfo,
+    isDateValid,
+  ]);
 
   const selectedDateValid =
     collectionInfo.collectionMode === "self-collection"
@@ -214,6 +263,63 @@ const Checkout = (props: CollectionProps) => {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          {collectionInfo.collectionMode === "delivery" && (
+            <>
+              <TextField
+                sx={{ marginTop: "1em" }}
+                label="Delivery address"
+                required
+                value={collectionInfo.deliveryAddress}
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    deliveryAddress: e.target.value,
+                  }))
+                }
+              ></TextField>
+              <TextField
+                sx={{ marginTop: "1em" }}
+                label="Postal Code"
+                required
+                value={collectionInfo.postalCode}
+                onChange={(e) => {
+                  const sanitized = e.target.value.replace(/\D/, "");
+                  if (sanitized.length > 6) {
+                    return;
+                  }
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    postalCode: sanitized,
+                  }));
+                }}
+              ></TextField>
+              <TextField
+                sx={{ marginTop: "1em", marginBottom: "1em" }}
+                label="Unit Number (if applicable)"
+                value={collectionInfo.unitNumber}
+                onChange={(e) => {
+                  const sanitized = e.target.value.replace(
+                    /[^0-9\-#a-zA-Z]/,
+                    ""
+                  );
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    unitNumber: sanitized,
+                  }));
+                }}
+              ></TextField>
+              <TextField
+                label="Condo Name (if applicable)"
+                value={collectionInfo.condoName}
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    condoName: e.target.value,
+                  }))
+                }
+              ></TextField>
+            </>
+          )}
         </Paper>
       </Container>
 
@@ -232,6 +338,7 @@ const Checkout = (props: CollectionProps) => {
           bottom: 0,
           right: 0,
           left: 0,
+          zIndex: "1",
         }}
       >
         <Button
@@ -252,6 +359,9 @@ const Checkout = (props: CollectionProps) => {
             color: "black",
             padding: "0.5em",
             marginLeft: "0.5em",
+            "@media (min-width: 780px)": {
+              fontSize: "1.2em",
+            },
           }}
           onClick={() => {
             setPage("checkout");
@@ -260,7 +370,11 @@ const Checkout = (props: CollectionProps) => {
             !selectedDateValid ||
             !collectionInfo.name.length ||
             collectionInfo.contactNumber.length !== 8 ||
-            (collectionInfo.isGift && !collectionInfo.giftRecipientName?.length)
+            (collectionInfo.isGift &&
+              !collectionInfo.giftRecipientName?.length) ||
+            (collectionInfo.collectionMode === "delivery" &&
+              (!collectionInfo.deliveryAddress?.length ||
+                (collectionInfo.postalCode?.length ?? 0) < 6))
           }
         >
           Next: Checkout

@@ -6,6 +6,10 @@ export type CollectionInfo = {
   contactNumber: string;
   collectionMode: "self-collection" | "delivery";
   isGift: boolean;
+  deliveryAddress?: string;
+  condoName?: string;
+  unitNumber?: string;
+  postalCode?: string;
   giftRecipientName?: string;
   selfCollectionDate?: Date;
   deliveryDate?: Date;
