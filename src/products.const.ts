@@ -7,6 +7,9 @@ export const GRANOLA_FLAVOURS = [
   "Speculoos Walnut",
   "Gula Melaka",
   "Black Sesame",
+  "Malted Milk",
+  "Berry Crumble",
+  "Chai Latte",
 ];
 
 export const LOW_CARB_GRANOLA_FLAVOURS = [
