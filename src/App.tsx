@@ -131,6 +131,20 @@ function App() {
               gifts for multiple recipients, please contact us directly.
             </Typography>
           </HeaderTextContainer>
+          <HeaderTextContainer>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
+              {"Free delivery for orders > $50."}
+            </Typography>
+          </HeaderTextContainer>
         </HeaderContainer>
       )}
 
