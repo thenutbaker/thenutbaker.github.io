@@ -1,5 +1,6 @@
 export const MAX_QUANTITY = 20;
 export const GRANOLA_FLAVOURS = [
+  "Chai Latte (July Only)",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
@@ -9,7 +10,6 @@ export const GRANOLA_FLAVOURS = [
   "Black Sesame",
   "Malted Milk",
   "Berry Crumble",
-  "Chai Latte",
 ];
 
 export const LOW_CARB_GRANOLA_FLAVOURS = [
