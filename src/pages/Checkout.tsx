@@ -1,7 +1,14 @@
 import styled from "@emotion/styled";
 import { LoadingButton } from "@mui/lab";
-import { Alert, Button, Paper, Snackbar, Typography } from "@mui/material";
-import axios from "axios";
+import {
+  Alert,
+  Button,
+  Paper,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
+import axios, { AxiosError } from "axios";
 import moment from "moment";
 import { useState } from "react";
 import { CollectionInfo, Items, Page } from "../App.types";
@@ -31,6 +38,11 @@ const VariantsContainer = styled.div`
   margin-bottom: 1em;
 `;
 
+const PromoContainer = styled.div`
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+`;
+
 const Divider = styled.hr`
   border: 1px lightgrey solid;
   width: 100%;
@@ -54,19 +66,55 @@ const PayNowQr = styled.img`
 
 const Checkout = (props: CheckoutProps) => {
   const { setPage, items, collectionInfo } = props;
+
+  const [promoCode, setPromoCode] = useState("");
+  const [promoDescription, setPromoDescription] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoApplied, setPromoApplied] = useState(false);
+  const priceMinor = calculatePriceMinor(items);
   const deliveryFeeRequired =
-    collectionInfo.collectionMode === "delivery" &&
-    calculatePriceMinor(items) < 5000;
+    collectionInfo.collectionMode === "delivery" && priceMinor < 5000;
   const totalPriceString = formatMinor(
-    calculatePriceMinor(items) + (deliveryFeeRequired ? 700 : 0)
+    priceMinor + (deliveryFeeRequired ? 700 : 0) - promoDiscount
   );
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPromoQueryLoading, setIsPromoQueryLoading] = useState(false);
+  const [promoSnackOpen, setPromoSnackOpen] = useState(false);
+  const [promoError, setPromoError] = useState("");
+
+  const [isSubmisssionLoading, setSubmissionIsLoading] = useState(false);
   const [errorSnackOpen, setErrorSnackOpen] = useState(false);
-  const submit = async () => {
-    setIsLoading(true);
+
+  const applyPromo = async () => {
+    setIsPromoQueryLoading(true);
     try {
-      await axios.post("https://nutbaker-form-backend.herokuapp.com/orders", {
+      const response = await axios.post(
+        "https://nutbaker-form-backend.herokuapp.com/promo",
+        {
+          promoCode,
+          priceMinor,
+        }
+      );
+      setPromoDiscount(response.data.promoDiscount);
+      setPromoDescription(response.data.promoDescription);
+      setPromoError("");
+      setPromoSnackOpen(true);
+      setPromoApplied(true);
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.errorMessage) {
+        setPromoError(err.response.data.errorMessage);
+      } else {
+        setPromoError("An error occurred, please try again later");
+      }
+      setPromoDiscount(0);
+    } finally {
+      setIsPromoQueryLoading(false);
+    }
+  };
+  const submit = async () => {
+    setSubmissionIsLoading(true);
+    try {
+      await axios.post("https://nutbaker-form-backend.herokuapp.com//orders", {
         price: totalPriceString,
         items,
         collectionInfo: {
@@ -82,17 +130,21 @@ const Checkout = (props: CheckoutProps) => {
             ),
           }),
         },
+        ...(promoCode.length && { promoCode }),
       });
-      setIsLoading(false);
+      setSubmissionIsLoading(false);
       setPage("success");
     } catch (err) {
       console.error(err);
       setErrorSnackOpen(true);
-      setIsLoading(false);
+      setSubmissionIsLoading(false);
     }
   };
 
-  const onSnackClose = () => {
+  const onPromoSnackClose = () => {
+    setPromoSnackOpen(false);
+  };
+  const onErrorSnackClose = () => {
     setErrorSnackOpen(false);
   };
   return (
@@ -134,18 +186,35 @@ const Checkout = (props: CheckoutProps) => {
                     <Snackbar
                       open={errorSnackOpen}
                       autoHideDuration={6000}
-                      onClose={onSnackClose}
+                      onClose={onErrorSnackClose}
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "center",
                       }}
                     >
                       <Alert
-                        onClose={onSnackClose}
+                        onClose={onErrorSnackClose}
                         severity="error"
                         sx={{ width: "100%" }}
                       >
                         An error occurred. Please try again later.
+                      </Alert>
+                    </Snackbar>
+                    <Snackbar
+                      open={promoSnackOpen}
+                      autoHideDuration={3000}
+                      onClose={onPromoSnackClose}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                      }}
+                    >
+                      <Alert
+                        onClose={onPromoSnackClose}
+                        severity="success"
+                        sx={{ width: "100%" }}
+                      >
+                        Promo applied successfully!
                       </Alert>
                     </Snackbar>
                     <Typography sx={{ fontSize: "1em" }}>
@@ -178,10 +247,85 @@ const Checkout = (props: CheckoutProps) => {
                 <Typography>$7.00</Typography>
               </>
             )}
+            {promoDiscount > 0 && (
+              <>
+                <Typography sx={{ fontSize: "1em" }}>
+                  {promoDescription}
+                </Typography>
+                <Typography>{`- ${formatMinor(promoDiscount)}`}</Typography>
+              </>
+            )}
             <Divider />
             <Typography sx={{ fontSize: "1em" }}>Total</Typography>
             <Typography>{totalPriceString}</Typography>
           </OrderSummaryContainer>
+        </Paper>
+        <Paper
+          sx={{
+            gridColumnStart: "2",
+            marginTop: "1em",
+            padding: "1em",
+            maxHeight: "fit-content",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              marginBottom: "0.5em",
+              fontSize: "1em",
+              fontWeight: "medium",
+              "@media(min-width: 780px)": {
+                fontSize: "1.2em",
+              },
+            }}
+          >
+            Promo
+          </Typography>
+          <PromoContainer>
+            <TextField
+              label="Promo code"
+              required
+              value={collectionInfo.giftRecipientName}
+              onChange={(e) => {
+                setPromoApplied(false);
+                setPromoCode(e.target.value);
+              }}
+              error={promoError.length > 0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  applyPromo();
+                }
+              }}
+            ></TextField>
+            <Button
+              sx={{
+                marginLeft: "0.5em",
+              }}
+              onClick={() => {
+                applyPromo();
+              }}
+              disabled={
+                promoCode.length === 0 || isPromoQueryLoading || promoApplied
+              }
+            >
+              {isPromoQueryLoading
+                ? "Loading"
+                : promoApplied
+                ? "Applied"
+                : "Submit"}
+            </Button>
+            <Typography
+              sx={{
+                color: "error.main",
+                marginTop: "0.2em",
+                fontSize: "0.8em",
+              }}
+            >
+              {promoError}
+            </Typography>
+          </PromoContainer>
         </Paper>
         <Paper
           sx={{
@@ -252,7 +396,7 @@ const Checkout = (props: CheckoutProps) => {
             },
           }}
           onClick={() => setPage("collection")}
-          disabled={isLoading}
+          disabled={isSubmisssionLoading}
         >
           Back
         </Button>
@@ -268,7 +412,7 @@ const Checkout = (props: CheckoutProps) => {
             },
           }}
           onClick={submit}
-          loading={isLoading}
+          loading={isSubmisssionLoading}
         >
           Confirm Order
         </LoadingButton>
