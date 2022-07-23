@@ -12,6 +12,8 @@ export const GRANOLA_FLAVOURS = [
   "Berry Crumble",
 ];
 
+export const LACTATION_GRANOLA_FLAVOURS = ["Lactation Granola"];
+
 export const LOW_CARB_GRANOLA_FLAVOURS = [
   "Vanilla Coconut",
   "Cocoa Nutty",
@@ -60,6 +62,8 @@ export type ProductCode =
   | "GRANOLA_400"
   | "LOW_CARB_GRANOLA_200"
   | "LOW_CARB_GRANOLA_400"
+  | "LACTATION_GRANOLA_200"
+  | "LACTATION_GRANOLA_400"
   | "OATMEAL_COOKIES"
   | "MUFFINS"
   | "NUTBAKER_PASS_OCCASIONAL"
@@ -163,6 +167,14 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   LOW_CARB_GRANOLA_400: {
     price: (quantity: number) => quantity * 3200,
     label: "400g Granola (Low Carb)",
+  },
+  LACTATION_GRANOLA_200: {
+    price: (quantity: number) => quantity * 1800,
+    label: "200g Lactation Granola",
+  },
+  LACTATION_GRANOLA_400: {
+    price: (quantity: number) => quantity * 3200,
+    label: "400g Lactation Granola",
   },
   OATMEAL_COOKIES: {
     price: (quantity: number) => {

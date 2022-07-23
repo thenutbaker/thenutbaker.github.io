@@ -6,6 +6,7 @@ import MultiVariantSelect from "../components/MultiVariantSelect";
 import SectionHeader from "../components/SectionHeader";
 import {
   GRANOLA_FLAVOURS,
+  LACTATION_GRANOLA_FLAVOURS,
   LOW_CARB_GRANOLA_FLAVOURS,
   MAX_QUANTITY,
   MUFFIN_FLAVOURS,
@@ -122,6 +123,41 @@ const OrderInfo = (props: OrderInfoProps) => {
           subtitle="$32 per pack"
           options={LOW_CARB_GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "LOW_CARB_GRANOLA_400",
+            label: flavour,
+          }))}
+          quantity={{
+            max: MAX_QUANTITY,
+          }}
+          allowQuantitySelection
+        />
+
+        <SectionHeader
+          title="Lactation Granola"
+          subtitle="We fortify oats (a natural milk booster) with omega-3 rich ingredients like walnuts, chia and flax seeds to help mamas stimulate milk production!"
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="200g Lactation Granola"
+          subtitle={"$18 per pack"}
+          options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
+            productCode: "LACTATION_GRANOLA_200",
+            label: flavour,
+          }))}
+          quantity={{
+            max: MAX_QUANTITY,
+          }}
+          allowQuantitySelection
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="400g Lactation Granola"
+          subtitle="$32 per pack"
+          options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
+            productCode: "LACTATION_GRANOLA_400",
             label: flavour,
           }))}
           quantity={{
