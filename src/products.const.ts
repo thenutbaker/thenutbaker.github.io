@@ -1,7 +1,7 @@
 export const MAX_QUANTITY = 20;
 export const GRANOLA_FLAVOURS = [
   "Peaconut Butter (Aug Special)",
-  "Singapore Sling (Aug Special",
+  "Singapore Sling (Aug Special)",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
