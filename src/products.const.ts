@@ -1,6 +1,7 @@
 export const MAX_QUANTITY = 20;
 export const GRANOLA_FLAVOURS = [
-  "Chai Latte (July Only)",
+  "Peaconut Butter (Aug Special)",
+  "Singapore Sling (Aug Special",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
