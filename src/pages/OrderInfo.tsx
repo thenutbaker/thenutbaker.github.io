@@ -11,6 +11,7 @@ import {
   MAX_QUANTITY,
   MUFFIN_FLAVOURS,
   NUTBAKER_PASS_OPTIONS,
+  NUTTIE_FLORENTINES_FLAVOURS,
   OATMEAL_COOKIE_FLAVOURS,
   ProductCode,
 } from "../products.const";
@@ -158,6 +159,41 @@ const OrderInfo = (props: OrderInfoProps) => {
           subtitle="$32 per pack"
           options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "LACTATION_GRANOLA_400",
+            label: flavour,
+          }))}
+          quantity={{
+            max: MAX_QUANTITY,
+          }}
+          allowQuantitySelection
+        />
+
+        <SectionHeader
+          title="Nuttie Florentines"
+          subtitle="A sweet-savoury blend of sliced almonds, pumpkin seeds, sunflower seeds and sesame seeds. Thin and crispy, they're seriously addictive!"
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="120g Nuttie Florentines"
+          subtitle={"$10 per pack"}
+          options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
+            productCode: "NUTTIE_FLORENTINES_120",
+            label: flavour,
+          }))}
+          quantity={{
+            max: MAX_QUANTITY,
+          }}
+          allowQuantitySelection
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="180g Nuttie Florentines"
+          subtitle={"$15 per pack"}
+          options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
+            productCode: "NUTTIE_FLORENTINES_180",
             label: flavour,
           }))}
           quantity={{
