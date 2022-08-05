@@ -49,7 +49,7 @@ const OrderInfo = (props: OrderInfoProps) => {
     <>
       <Container>
         <SectionHeader
-          title="Granola (The Usual Suspects)"
+          title="Granola (The Classics)"
           subtitle="Medley of oats, rice puffs, nuts, and seeds"
           extraMarginTop={false}
         />
