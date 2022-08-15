@@ -175,10 +175,10 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="120g Nuttie Florentines"
+          title="100g Nuttie Florentines"
           subtitle={"$10 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
-            productCode: "NUTTIE_FLORENTINES_120",
+            productCode: "NUTTIE_FLORENTINES_100",
             label: flavour,
           }))}
           quantity={{
@@ -190,10 +190,10 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="180g Nuttie Florentines"
+          title="150g Nuttie Florentines"
           subtitle={"$15 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
-            productCode: "NUTTIE_FLORENTINES_180",
+            productCode: "NUTTIE_FLORENTINES_150",
             label: flavour,
           }))}
           quantity={{
