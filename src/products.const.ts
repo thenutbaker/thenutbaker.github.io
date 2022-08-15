@@ -84,10 +84,10 @@ type Product = {
 export const PRODUCTS: Record<ProductCode, Product> = {
   GRANOLA_50: {
     /**
-     * 3 for $10
-     * 4 for $13
-     * 5 for $15
-     * 7 for $20
+     * 3 for $12
+     * 4 for $15
+     * 5 for $18
+     * 7 for $24
      */
     price: (quantity: number) => {
       if (quantity < 3) {
@@ -104,24 +104,24 @@ export const PRODUCTS: Record<ProductCode, Product> = {
         numBundlesOf7 -= 1;
       }
 
-      totalPrice += numBundlesOf7 * 2000;
+      totalPrice += numBundlesOf7 * 2400;
       remainingQuantity -= numBundlesOf7 * 7;
 
       // remainingQuantity must now be 0,3,4,5,6,8,15
       if (remainingQuantity === 6) {
-        return totalPrice + 2 * 1000;
+        return totalPrice + 2 * 1200;
       }
 
       const numBundlesOf5 = Math.floor(remainingQuantity / 5);
-      totalPrice += numBundlesOf5 * 1500;
+      totalPrice += numBundlesOf5 * 1800;
       remainingQuantity -= numBundlesOf5 * 5;
 
       switch (remainingQuantity) {
         case 3:
-          totalPrice += 1000;
+          totalPrice += 1200;
           break;
         case 4:
-          totalPrice += 1300;
+          totalPrice += 1500;
       }
       return totalPrice;
     },
