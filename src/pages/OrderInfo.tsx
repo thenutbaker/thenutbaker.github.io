@@ -12,7 +12,6 @@ import {
   MUFFIN_FLAVOURS,
   NUTBAKER_PASS_OPTIONS,
   NUTTIE_FLORENTINES_FLAVOURS,
-  OATMEAL_COOKIE_FLAVOURS,
   ProductCode,
 } from "../products.const";
 import { calculatePriceString } from "../utils";
@@ -194,23 +193,6 @@ const OrderInfo = (props: OrderInfoProps) => {
           subtitle={"$15 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
             productCode: "NUTTIE_FLORENTINES_150",
-            label: flavour,
-          }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
-          allowQuantitySelection
-        />
-
-        <SectionHeader title="Oatmeal Cookies" />
-        <MultiVariantSelect
-          setErrorMap={setErrorMap}
-          setItems={setItems}
-          items={items}
-          title="170g (7-8 cookies)"
-          subtitle="1 for $8, 2 for $15, 3 for $22"
-          options={OATMEAL_COOKIE_FLAVOURS.map((flavour) => ({
-            productCode: "OATMEAL_COOKIES",
             label: flavour,
           }))}
           quantity={{

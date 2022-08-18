@@ -30,13 +30,6 @@ export const MUFFIN_FLAVOURS = [
   "Cinnamon Raisin",
 ];
 
-export const OATMEAL_COOKIE_FLAVOURS = [
-  "The Anzac (Coconut)",
-  "Matcha Whatcha",
-  "Open Sesame",
-  "Cocoa Lover",
-];
-
 export const NUTBAKER_PASS_OPTIONS: {
   productCode: ProductCode;
   label: string;
@@ -69,7 +62,6 @@ export type ProductCode =
   | "LACTATION_GRANOLA_400"
   | "NUTTIE_FLORENTINES_100"
   | "NUTTIE_FLORENTINES_150"
-  | "OATMEAL_COOKIES"
   | "MUFFINS"
   | "NUTBAKER_PASS_OCCASIONAL"
   | "NUTBAKER_PASS_REGULAR"
@@ -188,23 +180,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTTIE_FLORENTINES_150: {
     price: (quantity: number) => quantity * 1500,
     label: "150g Nuttie Florentines",
-  },
-  OATMEAL_COOKIES: {
-    price: (quantity: number) => {
-      const numBundlesOf3 = Math.floor(quantity / 3);
-      const remainder = quantity % 3;
-      switch (remainder) {
-        case 0:
-          return numBundlesOf3 * 2200;
-        case 1:
-          return numBundlesOf3 * 2200 + 800;
-        case 2:
-          return numBundlesOf3 * 2200 + 1500;
-        default:
-          return 99999999999999;
-      }
-    },
-    label: "Oatmeal Cookies",
   },
   MUFFINS: {
     price: (quantity: number) => {
