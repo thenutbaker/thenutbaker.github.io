@@ -1,4 +1,3 @@
-export const MAX_QUANTITY = 20;
 export const GRANOLA_FLAVOURS = [
   "Peaconut Butter (Aug Special)",
   "Singapore Sling (Aug Special)",
@@ -28,6 +27,7 @@ export const MUFFIN_FLAVOURS = [
   "Matcha Choc Chip",
   "Banana Pecan",
   "Cinnamon Raisin",
+  "Double Chocolate",
 ];
 
 export const NUTBAKER_PASS_OPTIONS: {
