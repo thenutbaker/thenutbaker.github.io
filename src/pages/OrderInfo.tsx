@@ -8,7 +8,6 @@ import {
   GRANOLA_FLAVOURS,
   LACTATION_GRANOLA_FLAVOURS,
   LOW_CARB_GRANOLA_FLAVOURS,
-  MAX_QUANTITY,
   MUFFIN_FLAVOURS,
   NUTBAKER_PASS_OPTIONS,
   NUTTIE_FLORENTINES_FLAVOURS,
@@ -62,7 +61,7 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "GRANOLA_50",
             label: flavour,
           }))}
-          quantity={{ min: 3, max: 20 }}
+          quantity={{ min: 3 }}
           minSingleQuantity={3}
           allowQuantitySelection
         />
@@ -76,9 +75,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "GRANOLA_200",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
         <MultiVariantSelect
@@ -91,9 +87,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "GRANOLA_400",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
         <SectionHeader
@@ -110,9 +103,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "LOW_CARB_GRANOLA_200",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
         <MultiVariantSelect
@@ -125,9 +115,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "LOW_CARB_GRANOLA_400",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
 
@@ -145,9 +132,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "LACTATION_GRANOLA_200",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
         <MultiVariantSelect
@@ -160,9 +144,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "LACTATION_GRANOLA_400",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
 
@@ -180,9 +161,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "NUTTIE_FLORENTINES_100",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
         <MultiVariantSelect
@@ -195,9 +173,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "NUTTIE_FLORENTINES_150",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
 
@@ -212,9 +187,6 @@ const OrderInfo = (props: OrderInfoProps) => {
             productCode: "MUFFINS",
             label: flavour,
           }))}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection
         />
 
@@ -229,9 +201,6 @@ const OrderInfo = (props: OrderInfoProps) => {
           title="The Nutbaker Pass"
           subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details and flavour choices."
           options={NUTBAKER_PASS_OPTIONS}
-          quantity={{
-            max: MAX_QUANTITY,
-          }}
           allowQuantitySelection={false}
         />
       </Container>

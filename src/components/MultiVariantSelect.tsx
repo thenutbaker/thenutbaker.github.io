@@ -163,7 +163,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
               return sum + qty;
             }, 0);
             const maxAllowedQty = Math.min(
-              singleItemMaxQty ?? 10,
+              singleItemMaxQty ?? 20,
               Math.max(
                 0,
                 (quantity?.max ?? Number.MAX_SAFE_INTEGER) - qtyOfOthers
