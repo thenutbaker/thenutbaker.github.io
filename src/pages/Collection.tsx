@@ -29,6 +29,11 @@ const Container = styled.div`
   justify-content: start;
 `;
 
+const BLOCKED_DATES: { start: Date; end: Date } | null = {
+  start: new Date("2022-09-13T00:00:00+08:00"),
+  end: new Date("2022-09-20T00:00:00+08:00"),
+};
+
 const Checkout = (props: CollectionProps) => {
   const { setPage, collectionInfo, setCollectionInfo } = props;
   const [backendPinged, setBackendPinged] = useState(false);
@@ -53,7 +58,10 @@ const Checkout = (props: CollectionProps) => {
         collectionInfo.collectionMode === "self-collection"
           ? [2, 4, 6]
           : [0, 3];
-      return allowedDays.includes(moment(date).day());
+      return (
+        allowedDays.includes(moment(date).day()) &&
+        (date < BLOCKED_DATES.start || date > BLOCKED_DATES.end)
+      );
     },
     [collectionInfo.collectionMode]
   );
