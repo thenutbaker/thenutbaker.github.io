@@ -56,13 +56,13 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="50g Granola"
-          subtitle="3 for $12, 4 for $15, 5 for $18, 7 for $24. Minimum order of 3 packs per flavour"
+          subtitle="3 for $12, 4 for $15, 5 for $18, 7 for $24. Minimum order of 4 packs per flavour"
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_50",
             label: flavour,
           }))}
-          quantity={{ min: 3 }}
-          minSingleQuantity={3}
+          quantity={{ min: 4 }}
+          minSingleQuantity={4}
           allowQuantitySelection
         />
         <MultiVariantSelect
