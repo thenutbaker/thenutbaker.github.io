@@ -1,6 +1,5 @@
 export const GRANOLA_FLAVOURS = [
-  "Peaconut Butter (Aug Special)",
-  "Singapore Sling (Aug Special)",
+  "Yammy Taro (Sep Special)",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
