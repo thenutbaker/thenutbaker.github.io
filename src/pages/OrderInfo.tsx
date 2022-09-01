@@ -56,7 +56,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="50g Granola"
-          subtitle="4 for $15, 5 for $18, 7 for $24. Minimum order of 4 packs per flavour"
+          subtitle="4 for $16, 5 for $19, 7 for $22. Minimum order of 4 packs per flavour"
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_50",
             label: flavour,
@@ -70,7 +70,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="200g Granola"
-          subtitle={"1 for $13, 2 for $25, 3 for $35, 4 for $45"}
+          subtitle={"1 for $14, 2 for $27, 3 for $39, 4 for $50"}
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_200",
             label: flavour,
@@ -82,7 +82,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="400g Granola"
-          subtitle="1 for $25, 2 for $45, 3 for $65, 4 for $80"
+          subtitle="1 for $25, 2 for $48, 3 for $70, 4 for $90"
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_400",
             label: flavour,

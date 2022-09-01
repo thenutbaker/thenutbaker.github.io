@@ -35,19 +35,19 @@ export const NUTBAKER_PASS_OPTIONS: {
 }[] = [
   {
     productCode: "NUTBAKER_PASS_OCCASIONAL",
-    label: "Occasional - 8 x 200g, $96 ($53/kg)",
+    label: "Occasional - 8 x 200g, $96 ($60/kg)",
   },
   {
     productCode: "NUTBAKER_PASS_REGULAR",
-    label: "Regular - 15 x 200g, $165 ($49/kg)",
+    label: "Regular - 15 x 200g, $168 ($56/kg)",
   },
   {
     productCode: "NUTBAKER_PASS_SILVER",
-    label: "Silver - 8 x 400g, $160 ($44/kg)",
+    label: "Silver - 8 x 400g, $166 ($52/kg)",
   },
   {
     productCode: "NUTBAKER_PASS_GOLD",
-    label: "Gold - 15 x 400g, $285 ($42/kg)",
+    label: "Gold - 15 x 400g, $288 ($48/kg)",
   },
 ];
 
@@ -75,46 +75,42 @@ type Product = {
 export const PRODUCTS: Record<ProductCode, Product> = {
   GRANOLA_50: {
     /**
-     * 3 for $12
-     * 4 for $15
-     * 5 for $18
-     * 7 for $24
+     * 4 for $16
+     * 5 for $19
+     * 6 for $22
+     * 7 for $25
      */
     price: (quantity: number) => {
-      if (quantity < 3) {
+      if (quantity < 4) {
         return 0;
       }
-      let remainingQuantity = quantity;
-      let totalPrice = 0;
+
       let numBundlesOf7 = Math.floor(quantity / 7);
       const remainder = quantity % 7;
-      if (remainder === 1) {
-        numBundlesOf7 = Math.max(0, numBundlesOf7 - 2);
-      }
-      if (remainder === 2) {
-        numBundlesOf7 -= 1;
-      }
 
-      totalPrice += numBundlesOf7 * 2400;
-      remainingQuantity -= numBundlesOf7 * 7;
-
-      // remainingQuantity must now be 0,3,4,5,6,8,15
-      if (remainingQuantity === 6) {
-        return totalPrice + 2 * 1200;
-      }
-
-      const numBundlesOf5 = Math.floor(remainingQuantity / 5);
-      totalPrice += numBundlesOf5 * 1800;
-      remainingQuantity -= numBundlesOf5 * 5;
-
-      switch (remainingQuantity) {
+      switch (remainder) {
+        case 0:
+          return numBundlesOf7 * 2500;
+        case 1:
+          // e.g. 15 will be 7 + 4 + 4, 8 will be 0 + 4 + 4
+          return 2500 * Math.max(0, numBundlesOf7 - 1) + 2 * 1600;
+        case 2:
+          // e.g. 16 will be 7 + 5 + 4, 9 will be 0 + 5 + 4
+          return 2500 * Math.max(0, numBundlesOf7 - 1) + 1900 + 1600;
         case 3:
-          totalPrice += 1200;
-          break;
+          // e.g. 17 will be 7 + 5 + 5, 10 will be 0 + 5 + 5
+          return 2500 * Math.max(0, numBundlesOf7 - 1) + 2 * 1900;
         case 4:
-          totalPrice += 1500;
+          return 2500 * numBundlesOf7 + 1600;
+        case 5:
+          return 2500 * numBundlesOf7 + 1900;
+        case 6:
+          return 2500 * numBundlesOf7 + 2200;
+        case 7:
+          return 2500 * numBundlesOf7 + 2500;
+        default:
+          return 99999999999999;
       }
-      return totalPrice;
     },
     label: "50g Granola",
   },
@@ -124,13 +120,13 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       const remainder = quantity % 4;
       switch (remainder) {
         case 0:
-          return numBundlesOf4 * 4500;
+          return numBundlesOf4 * 5000;
         case 1:
-          return numBundlesOf4 * 4500 + 1300;
+          return numBundlesOf4 * 5000 + 1400;
         case 2:
-          return numBundlesOf4 * 4500 + 2500;
+          return numBundlesOf4 * 5000 + 2700;
         case 3:
-          return numBundlesOf4 * 4500 + 3500;
+          return numBundlesOf4 * 5000 + 3900;
         default:
           return 99999999999999;
       }
@@ -143,13 +139,13 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       const remainder = quantity % 4;
       switch (remainder) {
         case 0:
-          return numBundlesOf4 * 8000;
+          return numBundlesOf4 * 9000;
         case 1:
-          return numBundlesOf4 * 8000 + 2500;
+          return numBundlesOf4 * 9000 + 2500;
         case 2:
-          return numBundlesOf4 * 8000 + 4500;
+          return numBundlesOf4 * 9000 + 4800;
         case 3:
-          return numBundlesOf4 * 8000 + 6500;
+          return numBundlesOf4 * 9000 + 7000;
         default:
           return 99999999999999;
       }
@@ -202,15 +198,15 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     label: "The Nutbaker Pass (Occasional)",
   },
   NUTBAKER_PASS_REGULAR: {
-    price: (quantity: number) => quantity * 16500,
+    price: (quantity: number) => quantity * 16800,
     label: "The Nutbaker Pass (Regular)",
   },
   NUTBAKER_PASS_SILVER: {
-    price: (quantity: number) => quantity * 16000,
+    price: (quantity: number) => quantity * 16600,
     label: "The Nutbaker Pass (Silver)",
   },
   NUTBAKER_PASS_GOLD: {
-    price: (quantity: number) => quantity * 28500,
+    price: (quantity: number) => quantity * 28800,
     label: "The Nutbaker Pass (Gold)",
   },
 };
