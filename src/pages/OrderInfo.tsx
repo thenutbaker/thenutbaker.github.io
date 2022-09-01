@@ -56,7 +56,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="50g Granola"
-          subtitle="4 for $16, 5 for $19, 7 for $22. Minimum order of 4 packs per flavour"
+          subtitle="4 for $16, 5 for $19, 6 for $22, 7 for $25. Minimum order of 4 packs per flavour"
           options={GRANOLA_FLAVOURS.map((flavour) => ({
             productCode: "GRANOLA_50",
             label: flavour,
