@@ -13,7 +13,10 @@ export const GRANOLA_FLAVOURS = [
 
 export const LACTATION_GRANOLA_FLAVOURS = ["Lactation Granola"];
 
-export const NUTTIE_FLORENTINES_FLAVOURS = ["Nuttie Florentines"];
+export const NUTTIE_FLORENTINES_FLAVOURS = [
+  "Almond Seedy (Sliced almonds, pumpkin seeds, sunflower seeds, white sesame seeds)",
+  "Peanut Sesame (Crushed peanuts, black sesame powder, white sesame seeds)",
+];
 
 export const LOW_CARB_GRANOLA_FLAVOURS = [
   "Vanilla Coconut",
@@ -27,6 +30,11 @@ export const MUFFIN_FLAVOURS = [
   "Banana Pecan",
   "Cinnamon Raisin",
   "Double Chocolate",
+];
+
+export const NUTBAKER_HANDS_ON_VARIANTS = [
+  "200g Granola + Oatmeal Cookies (6-8)",
+  "200g Granola + 3 Muffins",
 ];
 
 export const NUTBAKER_PASS_OPTIONS: {
@@ -65,7 +73,8 @@ export type ProductCode =
   | "NUTBAKER_PASS_OCCASIONAL"
   | "NUTBAKER_PASS_REGULAR"
   | "NUTBAKER_PASS_SILVER"
-  | "NUTBAKER_PASS_GOLD";
+  | "NUTBAKER_PASS_GOLD"
+  | "NUTBAKER_HANDS_ON";
 
 type Product = {
   price: (quantity: number) => number;
@@ -106,8 +115,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
           return 2500 * numBundlesOf7 + 1900;
         case 6:
           return 2500 * numBundlesOf7 + 2200;
-        case 7:
-          return 2500 * numBundlesOf7 + 2500;
         default:
           return 99999999999999;
       }
@@ -208,5 +215,9 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTBAKER_PASS_GOLD: {
     price: (quantity: number) => quantity * 28800,
     label: "The Nutbaker Pass (Gold)",
+  },
+  NUTBAKER_HANDS_ON: {
+    price: (quantity: number) => quantity * 5000,
+    label: "The Nutbaker - Hands-on!",
   },
 };

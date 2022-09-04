@@ -114,7 +114,7 @@ const Checkout = (props: CheckoutProps) => {
   const submit = async () => {
     setSubmissionIsLoading(true);
     try {
-      await axios.post("https://nutbaker-form-backend.herokuapp.com//orders", {
+      await axios.post("https://nutbaker-form-backend.herokuapp.com/orders", {
         price: totalPriceString,
         items,
         collectionInfo: {

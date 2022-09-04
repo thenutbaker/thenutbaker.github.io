@@ -9,6 +9,7 @@ import {
   LACTATION_GRANOLA_FLAVOURS,
   LOW_CARB_GRANOLA_FLAVOURS,
   MUFFIN_FLAVOURS,
+  NUTBAKER_HANDS_ON_VARIANTS,
   NUTBAKER_PASS_OPTIONS,
   NUTTIE_FLORENTINES_FLAVOURS,
   ProductCode,
@@ -149,7 +150,7 @@ const OrderInfo = (props: OrderInfoProps) => {
 
         <SectionHeader
           title="Nuttie Florentines"
-          subtitle="A sweet-savoury blend of sliced almonds, pumpkin seeds, sunflower seeds and sesame seeds. Thin and crispy, they're seriously addictive!"
+          subtitle="Sweet-savoury blend of nuts and seeds. Thin and crispy, they're seriously addictive!"
         />
         <MultiVariantSelect
           setErrorMap={setErrorMap}
@@ -202,6 +203,24 @@ const OrderInfo = (props: OrderInfoProps) => {
           subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details and flavour choices."
           options={NUTBAKER_PASS_OPTIONS}
           allowQuantitySelection={false}
+        />
+
+        <SectionHeader
+          title="The Nutbaker - Hands-on!"
+          subtitle="Love our bakes and want to have a go at making them yourself? Sign up for our hands-on session where you'll get to customise your choice of Nutbaker bakes and make them from scratch in no more than 2 hours! Dates and times are flexible - we'll get in touch to work something out!"
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="The Nutbaker - Hands-on!"
+          subtitle="$50 per pax"
+          options={NUTBAKER_HANDS_ON_VARIANTS.map((variant) => ({
+            label: variant,
+            productCode: "NUTBAKER_HANDS_ON",
+          }))}
+          quantity={{ max: 4 }}
+          allowQuantitySelection
         />
       </Container>
 
