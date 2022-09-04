@@ -219,7 +219,8 @@ const OrderInfo = (props: OrderInfoProps) => {
             label: variant,
             productCode: "NUTBAKER_HANDS_ON",
           }))}
-          quantity={{ max: 4 }}
+          quantity={{ min: 2, max: 4 }}
+          minSingleQuantity={2}
           allowQuantitySelection
         />
       </Container>
