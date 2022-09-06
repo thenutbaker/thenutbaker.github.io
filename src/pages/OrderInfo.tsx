@@ -149,7 +149,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         />
 
         <SectionHeader
-          title="Nuttie Florentines"
+          title="Nuttie Crisps"
           subtitle="Sweet-savoury blend of nuts and seeds. Thin and crispy, they're seriously addictive!"
         />
         <MultiVariantSelect
