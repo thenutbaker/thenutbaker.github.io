@@ -74,7 +74,8 @@ export type ProductCode =
   | "NUTBAKER_PASS_REGULAR"
   | "NUTBAKER_PASS_SILVER"
   | "NUTBAKER_PASS_GOLD"
-  | "NUTBAKER_HANDS_ON";
+  | "NUTBAKER_HANDS_ON"
+  | "CHILDRENS_DAY_BUNDLE";
 
 type Product = {
   price: (quantity: number) => number;
@@ -219,5 +220,9 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTBAKER_HANDS_ON: {
     price: (quantity: number) => quantity * 5000,
     label: "The Nutbaker - Hands-on!",
+  },
+  CHILDRENS_DAY_BUNDLE: {
+    price: (quantity: number) => quantity * 700,
+    label: "Children's Day Bundle",
   },
 };

@@ -127,8 +127,8 @@ function App() {
               }}
               display="inline-block"
             >
-              For bulk orders (more than 20 items), or if you are purchasing
-              gifts for multiple recipients, please contact us directly.
+              If you are purchasing gifts for multiple recipients, please
+              contact us directly.
             </Typography>
           </HeaderTextContainer>
           <HeaderTextContainer>

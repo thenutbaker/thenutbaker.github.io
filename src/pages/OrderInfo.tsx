@@ -47,10 +47,25 @@ const OrderInfo = (props: OrderInfoProps) => {
   return (
     <>
       <Container>
+        <SectionHeader title="Children's Day Bundle" extraMarginTop={false} />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="Children's Day Bundle"
+          subtitle="3 Chocolate Oatmeal Cookies + 50g Speculoos Walnut Granola for $7"
+          options={[
+            {
+              label: "Children's Day Bundle",
+              productCode: "CHILDRENS_DAY_BUNDLE",
+            },
+          ]}
+          quantity={{ max: 30 }}
+          allowQuantitySelection
+        />
         <SectionHeader
           title="Granola (The Classics)"
           subtitle="Medley of oats, rice puffs, nuts, and seeds"
-          extraMarginTop={false}
         />
         <MultiVariantSelect
           setErrorMap={setErrorMap}
@@ -257,13 +272,6 @@ const OrderInfo = (props: OrderInfoProps) => {
         >
           Total: {calculatePriceString(items)}
         </Typography>
-        {numItems > 20 && (
-          <Typography
-            sx={{ color: "#F60404", marginTop: "auto", marginBottom: "auto" }}
-          >
-            For orders with more than 20 items, please contact us directly
-          </Typography>
-        )}
         <Button
           sx={{
             backgroundColor: "#F5D998",
@@ -277,7 +285,6 @@ const OrderInfo = (props: OrderInfoProps) => {
           onClick={() => setPage("collection")}
           disabled={
             numItems === 0 ||
-            numItems > 20 ||
             Object.values(errorMap).some((hasError) => hasError)
           }
         >
