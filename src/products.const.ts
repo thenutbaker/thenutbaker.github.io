@@ -1,5 +1,5 @@
 export const GRANOLA_FLAVOURS = [
-  "Yammy Taro (Sep Special)",
+  "Peach Tea (Oct Special)",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
@@ -25,10 +25,10 @@ export const LOW_CARB_GRANOLA_FLAVOURS = [
 ];
 
 export const MUFFIN_FLAVOURS = [
-  "Blueberry Walnut",
+  "Blueberry Dark Choc",
   "Matcha Choc Chip",
-  "Banana Pecan",
-  "Cinnamon Raisin",
+  "Banana Choc Walnut",
+  "Cinnamon Raisin Pecan",
   "Double Chocolate",
 ];
 
@@ -178,11 +178,11 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   },
   NUTTIE_FLORENTINES_100: {
     price: (quantity: number) => quantity * 1000,
-    label: "100g Nuttie Crisps",
+    label: "100g Nuttie Crisps/Florentines",
   },
   NUTTIE_FLORENTINES_150: {
     price: (quantity: number) => quantity * 1500,
-    label: "150g Nuttie Crisps",
+    label: "150g Nuttie Crisps/Florentines",
   },
   MUFFINS: {
     price: (quantity: number) => {
