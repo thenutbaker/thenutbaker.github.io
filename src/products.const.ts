@@ -182,11 +182,11 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   },
   NUTTIE_FLORENTINES_100: {
     price: (quantity: number) => quantity * 1000,
-    label: "100g Nuttie Crisps/Florentines",
+    label: "100g Nutty Crisps/Florentines",
   },
   NUTTIE_FLORENTINES_150: {
     price: (quantity: number) => quantity * 1500,
-    label: "150g Nuttie Crisps/Florentines",
+    label: "150g Nutty Crisps/Florentines",
   },
   MUFFINS: {
     price: (quantity: number) => {

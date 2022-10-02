@@ -165,14 +165,14 @@ const OrderInfo = (props: OrderInfoProps) => {
         />
 
         <SectionHeader
-          title="Nuttie Crisps/Florentines"
+          title="Nutty Crisps/Florentines"
           subtitle="Sweet-savoury blend of nuts and seeds. Thin and crispy, they're seriously addictive!"
         />
         <MultiVariantSelect
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="100g Nuttie Crisps/Florentines"
+          title="100g Nutty Crisps/Florentines"
           subtitle={"$10 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
             productCode: "NUTTIE_FLORENTINES_100",
@@ -184,7 +184,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="150g Nuttie Crisps/Florentines"
+          title="150g Nutty Crisps/Florentines"
           subtitle={"$15 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
             productCode: "NUTTIE_FLORENTINES_150",
@@ -201,7 +201,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="100g Nuttie Nutty Biscotti"
+          title="100g Nutty Biscotti"
           subtitle={"$11 per pack"}
           options={NUTTY_BISCOTTI_FLAVOURS.map((flavour) => ({
             productCode: "NUTTY_BISCOTTI_100",
