@@ -221,7 +221,7 @@ const Checkout = (props: CollectionProps) => {
               },
             }}
           >
-            A delivery fee of $7 will be charged for orders below $50.
+            A delivery fee of $8 will be charged for orders below $50.
             Self-collection is free of charge.
           </Typography>
           <RadioGroup

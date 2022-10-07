@@ -48,22 +48,6 @@ const OrderInfo = (props: OrderInfoProps) => {
   return (
     <>
       <Container>
-        <SectionHeader title="Children's Day Bundle" extraMarginTop={false} />
-        <MultiVariantSelect
-          setErrorMap={setErrorMap}
-          setItems={setItems}
-          items={items}
-          title="Children's Day Bundle"
-          subtitle="3 Chocolate Oatmeal Cookies + 50g Speculoos Walnut Granola for $7"
-          options={[
-            {
-              label: "Children's Day Bundle",
-              productCode: "CHILDRENS_DAY_BUNDLE",
-            },
-          ]}
-          quantity={{ max: 30 }}
-          allowQuantitySelection
-        />
         <SectionHeader
           title="Granola (The Classics)"
           subtitle="Medley of oats, rice puffs, nuts, and seeds"
