@@ -15,6 +15,7 @@ import axios from "axios";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
 import { CollectionInfo, Page } from "../App.types";
+import "moment/locale/en-sg";
 
 type CollectionProps = {
   setPage: (page: Page) => void;
@@ -60,7 +61,8 @@ const Checkout = (props: CollectionProps) => {
           : [0, 3];
       return (
         allowedDays.includes(moment(date).day()) &&
-        (date < BLOCKED_DATES.start || date > BLOCKED_DATES.end)
+        (date < BLOCKED_DATES.start || date > BLOCKED_DATES.end) &&
+        date > moment().add(2, "days").startOf("day").toDate()
       );
     },
     [collectionInfo.collectionMode]
@@ -244,7 +246,13 @@ const Checkout = (props: CollectionProps) => {
               value="delivery"
             />
           </RadioGroup>
-          <LocalizationProvider dateAdapter={AdapterMoment}>
+          <LocalizationProvider
+            dateAdapter={AdapterMoment}
+            adapterLocale="en-sg"
+            dateFormats={{
+              fullDate: "DD/MM/YYYY",
+            }}
+          >
             <DatePicker
               label={
                 collectionInfo.collectionMode === "self-collection"
@@ -268,7 +276,10 @@ const Checkout = (props: CollectionProps) => {
               shouldDisableDate={(date) => {
                 return !isDateValid(date);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => {
+                console.log(params.inputRef);
+                return <TextField {...params} />;
+              }}
             />
           </LocalizationProvider>
           {collectionInfo.collectionMode === "delivery" && (
