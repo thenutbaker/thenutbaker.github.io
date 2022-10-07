@@ -249,9 +249,6 @@ const Checkout = (props: CollectionProps) => {
           <LocalizationProvider
             dateAdapter={AdapterMoment}
             adapterLocale="en-sg"
-            dateFormats={{
-              fullDate: "DD/MM/YYYY",
-            }}
           >
             <DatePicker
               label={
@@ -277,7 +274,6 @@ const Checkout = (props: CollectionProps) => {
                 return !isDateValid(date);
               }}
               renderInput={(params) => {
-                console.log(params.inputRef);
                 return <TextField {...params} />;
               }}
             />
