@@ -74,6 +74,7 @@ export type ProductCode =
   | "NUTTY_BISCOTTI_100"
   | "NUTTY_BISCOTTI_150"
   | "MUFFINS"
+  | "MUFFINS_4"
   | "NUTBAKER_PASS_OCCASIONAL"
   | "NUTBAKER_PASS_REGULAR"
   | "NUTBAKER_PASS_SILVER"
@@ -202,7 +203,26 @@ export const PRODUCTS: Record<ProductCode, Product> = {
           return 99999999999999;
       }
     },
-    label: "Muffins",
+    label: "Muffins (Box of 6)",
+  },
+  MUFFINS_4: {
+    price: (quantity: number) => {
+      const numBundlesOf4 = Math.floor(quantity / 4);
+      const remainder = quantity % 4;
+      switch (remainder) {
+        case 0:
+          return numBundlesOf4 * 5500;
+        case 1:
+          return numBundlesOf4 * 5500 + 1500;
+        case 2:
+          return numBundlesOf4 * 5500 + 2900;
+        case 3:
+          return numBundlesOf4 * 5500 + 4200;
+        default:
+          return 99999999999999;
+      }
+    },
+    label: "Muffins (Box of 4)",
   },
   NUTTY_BISCOTTI_100: {
     price: (quantity: number) => quantity * 1100,

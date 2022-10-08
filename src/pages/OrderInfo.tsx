@@ -211,6 +211,18 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
+          title="Box of 4"
+          subtitle="1 for $15, 2 for $29, 3 for $42, 4 for $55"
+          options={MUFFIN_FLAVOURS.map((flavour) => ({
+            productCode: "MUFFINS_4",
+            label: flavour,
+          }))}
+          allowQuantitySelection
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
           title="Box of 6"
           subtitle="1 for $20, 2 for $38, 3 for $56"
           options={MUFFIN_FLAVOURS.map((flavour) => ({
