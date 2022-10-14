@@ -72,7 +72,7 @@ export type ProductCode =
   | "NUTTIE_FLORENTINES_100"
   | "NUTTIE_FLORENTINES_150"
   | "NUTTY_BISCOTTI_100"
-  | "NUTTY_BISCOTTI_150"
+  | "NUTTY_BISCOTTI_200"
   | "MUFFINS"
   | "MUFFINS_4"
   | "NUTBAKER_PASS_OCCASIONAL"
@@ -228,9 +228,9 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     price: (quantity: number) => quantity * 1100,
     label: "Nutty Biscotti (100g)",
   },
-  NUTTY_BISCOTTI_150: {
-    price: (quantity: number) => quantity * 1600,
-    label: "Nutty Biscotti (150g)",
+  NUTTY_BISCOTTI_200: {
+    price: (quantity: number) => quantity * 2000,
+    label: "Nutty Biscotti (200g)",
   },
   NUTBAKER_PASS_OCCASIONAL: {
     price: (quantity: number) => quantity * 9600,

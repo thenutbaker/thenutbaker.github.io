@@ -197,10 +197,10 @@ const OrderInfo = (props: OrderInfoProps) => {
           setErrorMap={setErrorMap}
           setItems={setItems}
           items={items}
-          title="150g Nutty Biscotti"
-          subtitle={"$16 per pack"}
+          title="200g Nutty Biscotti"
+          subtitle={"$20 per pack"}
           options={NUTTY_BISCOTTI_FLAVOURS.map((flavour) => ({
-            productCode: "NUTTY_BISCOTTI_150",
+            productCode: "NUTTY_BISCOTTI_200",
             label: flavour,
           }))}
           allowQuantitySelection
