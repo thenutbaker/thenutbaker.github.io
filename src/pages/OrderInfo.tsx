@@ -12,7 +12,6 @@ import {
   NUTBAKER_HANDS_ON_VARIANTS,
   NUTBAKER_PASS_OPTIONS,
   NUTTIE_FLORENTINES_FLAVOURS,
-  NUTTY_BISCOTTI_FLAVOURS,
   ProductCode,
 } from "../products.const";
 import { calculatePriceString } from "../utils";
@@ -172,35 +171,6 @@ const OrderInfo = (props: OrderInfoProps) => {
           subtitle={"$15 per pack"}
           options={NUTTIE_FLORENTINES_FLAVOURS.map((flavour) => ({
             productCode: "NUTTIE_FLORENTINES_150",
-            label: flavour,
-          }))}
-          allowQuantitySelection
-        />
-
-        <SectionHeader
-          title="Nutty Biscotti"
-          subtitle="Twice-baked crunchy Italian cookies, perfect accompaniment to your favourite coffee/ tea."
-        />
-        <MultiVariantSelect
-          setErrorMap={setErrorMap}
-          setItems={setItems}
-          items={items}
-          title="100g Nutty Biscotti"
-          subtitle={"$11 per pack"}
-          options={NUTTY_BISCOTTI_FLAVOURS.map((flavour) => ({
-            productCode: "NUTTY_BISCOTTI_100",
-            label: flavour,
-          }))}
-          allowQuantitySelection
-        />
-        <MultiVariantSelect
-          setErrorMap={setErrorMap}
-          setItems={setItems}
-          items={items}
-          title="200g Nutty Biscotti"
-          subtitle={"$20 per pack"}
-          options={NUTTY_BISCOTTI_FLAVOURS.map((flavour) => ({
-            productCode: "NUTTY_BISCOTTI_200",
             label: flavour,
           }))}
           allowQuantitySelection

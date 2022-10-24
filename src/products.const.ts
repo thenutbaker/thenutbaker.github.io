@@ -37,8 +37,6 @@ export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + 3 Muffins",
 ];
 
-export const NUTTY_BISCOTTI_FLAVOURS = ["Classic Almond", "Chocolate Hazelnut"];
-
 export const NUTBAKER_PASS_OPTIONS: {
   productCode: ProductCode;
   label: string;
@@ -71,8 +69,6 @@ export type ProductCode =
   | "LACTATION_GRANOLA_400"
   | "NUTTIE_FLORENTINES_100"
   | "NUTTIE_FLORENTINES_150"
-  | "NUTTY_BISCOTTI_100"
-  | "NUTTY_BISCOTTI_200"
   | "MUFFINS"
   | "MUFFINS_4"
   | "NUTBAKER_PASS_OCCASIONAL"
@@ -223,14 +219,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       }
     },
     label: "Muffins (Box of 4)",
-  },
-  NUTTY_BISCOTTI_100: {
-    price: (quantity: number) => quantity * 1100,
-    label: "Nutty Biscotti (100g)",
-  },
-  NUTTY_BISCOTTI_200: {
-    price: (quantity: number) => quantity * 2000,
-    label: "Nutty Biscotti (200g)",
   },
   NUTBAKER_PASS_OCCASIONAL: {
     price: (quantity: number) => quantity * 9600,
