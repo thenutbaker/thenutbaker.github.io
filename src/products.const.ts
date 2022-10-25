@@ -18,6 +18,11 @@ export const NUTTIE_FLORENTINES_FLAVOURS = [
   "Peanut Sesame (Crushed peanuts, black sesame powder, white sesame seeds)",
 ];
 
+export const NUTTIE_FLORENTINES_FLAVOURS_SHORT = [
+  "Almond Seedy",
+  "Peanut Sesame",
+];
+
 export const LOW_CARB_GRANOLA_FLAVOURS = [
   "Vanilla Coconut",
   "Cocoa Nutty",
@@ -69,6 +74,7 @@ export type ProductCode =
   | "LACTATION_GRANOLA_400"
   | "NUTTIE_FLORENTINES_100"
   | "NUTTIE_FLORENTINES_150"
+  | "NUTTIE_FLORENTINES_200"
   | "MUFFINS"
   | "MUFFINS_4"
   | "NUTBAKER_PASS_OCCASIONAL"
@@ -183,6 +189,10 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTTIE_FLORENTINES_150: {
     price: (quantity: number) => quantity * 1500,
     label: "150g Nutty Crisps/Florentines",
+  },
+  NUTTIE_FLORENTINES_200: {
+    price: (quantity: number) => quantity * 1900,
+    label: "200g Nutty Crisps/Florentines",
   },
   MUFFINS: {
     price: (quantity: number) => {
