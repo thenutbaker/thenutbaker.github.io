@@ -89,7 +89,7 @@ const Checkout = (props: CheckoutProps) => {
     setIsPromoQueryLoading(true);
     try {
       const response = await axios.post(
-        "https://nutbaker-form-backend.herokuapp.com/promo",
+        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/applyPromo",
         {
           promoCode,
           priceMinor,
@@ -114,24 +114,27 @@ const Checkout = (props: CheckoutProps) => {
   const submit = async () => {
     setSubmissionIsLoading(true);
     try {
-      await axios.post("https://nutbaker-form-backend.herokuapp.com/orders", {
-        price: totalPriceString,
-        items,
-        collectionInfo: {
-          ...collectionInfo,
-          ...(collectionInfo.selfCollectionDate && {
-            selfCollectionDate: moment(
-              collectionInfo.selfCollectionDate
-            ).format("DD/MM/YYYY"),
-          }),
-          ...(collectionInfo.deliveryDate && {
-            deliveryDate: moment(collectionInfo.deliveryDate).format(
-              "DD/MM/YYYY"
-            ),
-          }),
-        },
-        ...(promoCode.length && { promoCode }),
-      });
+      await axios.post(
+        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/makeOrder",
+        {
+          price: totalPriceString,
+          items,
+          collectionInfo: {
+            ...collectionInfo,
+            ...(collectionInfo.selfCollectionDate && {
+              selfCollectionDate: moment(
+                collectionInfo.selfCollectionDate
+              ).format("DD/MM/YYYY"),
+            }),
+            ...(collectionInfo.deliveryDate && {
+              deliveryDate: moment(collectionInfo.deliveryDate).format(
+                "DD/MM/YYYY"
+              ),
+            }),
+          },
+          ...(promoCode.length && { promoCode }),
+        }
+      );
       setSubmissionIsLoading(false);
       setPage("success");
     } catch (err) {

@@ -42,7 +42,9 @@ const Checkout = (props: CollectionProps) => {
   useEffect(() => {
     if (!backendPinged) {
       axios
-        .get("https://nutbaker-form-backend.herokuapp.com")
+        .get(
+          "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/ping"
+        )
         .then(() => setBackendPinged(true))
         .catch((err) => {
           console.error(err);
