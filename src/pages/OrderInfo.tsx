@@ -49,6 +49,21 @@ const OrderInfo = (props: OrderInfoProps) => {
     <>
       <Container>
         <SectionHeader
+          title="Christmas Bundle"
+          subtitle="Our bundle includes 50g Festive Matcha Macadamia Granola, 4 x Cranberry Pistachio Shortbread Cookies, and a Christmas card"
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="Christmas Bundle"
+          subtitle="$11 per bundle"
+          options={[
+            { label: "Christmas bundle", productCode: "CHRISTMAS_BUNDLE" },
+          ]}
+          allowQuantitySelection
+        />
+        <SectionHeader
           title="Granola (The Classics)"
           subtitle="Medley of oats, rice puffs, nuts, and seeds"
         />
