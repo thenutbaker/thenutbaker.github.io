@@ -91,7 +91,7 @@ type Product = {
 
 export const PRODUCTS: Record<ProductCode, Product> = {
   CHRISTMAS_BUNDLE: {
-    price: (quantity: number) => quantity * 1100,
+    price: (quantity: number) => quantity * 1500,
     label: "Christmas Bundle",
   },
   GRANOLA_50: {
