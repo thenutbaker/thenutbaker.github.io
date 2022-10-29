@@ -253,7 +253,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="The Nutbaker - Hands-on!"
-          subtitle="$50 per pax"
+          subtitle="Min 2 pax, max 4 pax. 1-2 pax: $70 per pax. 3-4 pax: $60 per pax"
           options={NUTBAKER_HANDS_ON_VARIANTS.map((variant) => ({
             label: variant,
             productCode: "NUTBAKER_HANDS_ON",

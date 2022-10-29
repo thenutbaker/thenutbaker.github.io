@@ -252,7 +252,12 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     label: "The Nutbaker Pass (Gold)",
   },
   NUTBAKER_HANDS_ON: {
-    price: (quantity: number) => quantity * 5000,
+    price: (quantity: number) => {
+      if (quantity <= 2) {
+        return quantity * 7000;
+      }
+      return quantity * 6000;
+    },
     label: "The Nutbaker - Hands-on!",
   },
 };
