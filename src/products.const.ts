@@ -1,5 +1,4 @@
 export const GRANOLA_FLAVOURS = [
-  "Peach Tea (Oct Special)",
   "Original",
   "Dark Choc Sea Salt",
   "Peanut Butter",
@@ -68,6 +67,8 @@ export type ProductCode =
   | "GRANOLA_50"
   | "GRANOLA_200"
   | "GRANOLA_400"
+  | "GRANOLA_200_FOTM"
+  | "GRANOLA_400_FOTM"
   | "LOW_CARB_GRANOLA_200"
   | "LOW_CARB_GRANOLA_400"
   | "LACTATION_GRANOLA_200"
@@ -170,6 +171,14 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       }
     },
     label: "400g Granola",
+  },
+  GRANOLA_200_FOTM: {
+    price: (quantity: number) => quantity * 1400,
+    label: "Granola of the month (200g)",
+  },
+  GRANOLA_400_FOTM: {
+    price: (quantity: number) => quantity * 2500,
+    label: "Granola of the month (400g)",
   },
   LOW_CARB_GRANOLA_200: {
     price: (quantity: number) => quantity * 1800,

@@ -30,6 +30,8 @@ const Container = styled.div`
   justify-content: start;
 `;
 
+const FLAVOR_OF_THE_MONTH = "Osmanthus Oolong";
+
 const OrderInfo = (props: OrderInfoProps) => {
   const { setItems, items, setPage } = props;
   const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
@@ -48,6 +50,32 @@ const OrderInfo = (props: OrderInfoProps) => {
   return (
     <>
       <Container>
+        <SectionHeader
+          title="Granola of the month"
+          subtitle="Proceeds will be donated to The Cat Welfare Society for their community and pet cat sterilisation program. Refer to our Instagram for more details!"
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="Granola of the month (200g)"
+          subtitle="$14 per pack"
+          options={[
+            { label: FLAVOR_OF_THE_MONTH, productCode: "GRANOLA_200_FOTM" },
+          ]}
+          allowQuantitySelection
+        />
+        <MultiVariantSelect
+          setErrorMap={setErrorMap}
+          setItems={setItems}
+          items={items}
+          title="Granola of the month (400g)"
+          subtitle="$25 per pack"
+          options={[
+            { label: FLAVOR_OF_THE_MONTH, productCode: "GRANOLA_400_FOTM" },
+          ]}
+          allowQuantitySelection
+        />
         <SectionHeader
           title="Christmas Bundle"
           subtitle="Our bundle includes 50g Festive Matcha Macadamia Granola, 4 x Cranberry Pistachio Shortbread Cookies, and a Christmas card"
