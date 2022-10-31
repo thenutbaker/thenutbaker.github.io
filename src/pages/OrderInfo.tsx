@@ -85,7 +85,7 @@ const OrderInfo = (props: OrderInfoProps) => {
           setItems={setItems}
           items={items}
           title="Christmas Bundle"
-          subtitle="$15 per bundle"
+          subtitle="$15 per bundle. Only available for collection/delivery in December"
           options={[
             { label: "Christmas bundle", productCode: "CHRISTMAS_BUNDLE" },
           ]}
