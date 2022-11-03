@@ -31,8 +31,8 @@ const Container = styled.div`
 `;
 
 const BLOCKED_DATES: { start: Date; end: Date } | null = {
-  start: new Date("2022-09-13T00:00:00+08:00"),
-  end: new Date("2022-09-20T00:00:00+08:00"),
+  start: new Date("2022-11-05T00:00:00+08:00"),
+  end: new Date("2022-11-07T00:00:00+08:00"),
 };
 
 const Checkout = (props: CollectionProps) => {
