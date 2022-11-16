@@ -33,7 +33,6 @@ export const MUFFIN_FLAVOURS = [
   "Matcha Choc Chip",
   "Banana Choc Walnut",
   "Cinnamon Raisin Pecan",
-  "Double Chocolate",
 ];
 
 export const NUTBAKER_HANDS_ON_VARIANTS = [
