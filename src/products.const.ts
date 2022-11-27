@@ -1,39 +1,4 @@
-export const GRANOLA_FLAVOURS = [
-  "Original",
-  "Dark Choc Sea Salt",
-  "Peanut Butter",
-  "Matcha Almond",
-  "Speculoos Walnut",
-  "Gula Melaka",
-  "Black Sesame",
-  "Malted Milk",
-  "Berry Crumble",
-];
-
 export const LACTATION_GRANOLA_FLAVOURS = ["Lactation Granola"];
-
-export const NUTTIE_FLORENTINES_FLAVOURS = [
-  "Almond Seedy (Sliced almonds, pumpkin seeds, sunflower seeds, white sesame seeds)",
-  "Peanut Sesame (Crushed peanuts, black sesame powder, white sesame seeds)",
-];
-
-export const NUTTIE_FLORENTINES_FLAVOURS_SHORT = [
-  "Almond Seedy",
-  "Peanut Sesame",
-];
-
-export const LOW_CARB_GRANOLA_FLAVOURS = [
-  "Vanilla Coconut",
-  "Cocoa Nutty",
-  "Peanut Sesame",
-];
-
-export const MUFFIN_FLAVOURS = [
-  "Blueberry Dark Choc",
-  "Matcha Choc Chip",
-  "Banana Choc Walnut",
-  "Cinnamon Raisin Pecan",
-];
 
 export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + Oatmeal Cookies (6-8)",
