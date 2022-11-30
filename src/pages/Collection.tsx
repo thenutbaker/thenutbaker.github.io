@@ -11,16 +11,16 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import axios from "axios";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
-import { CollectionInfo, Page } from "../App.types";
+import { useCallback, useEffect } from "react";
+import { CollectionInfo, DynamicConfigs, Page } from "../App.types";
 import "moment/locale/en-sg";
 
 type CollectionProps = {
   setPage: (page: Page) => void;
   collectionInfo: CollectionInfo;
   setCollectionInfo: React.Dispatch<React.SetStateAction<CollectionInfo>>;
+  configs: DynamicConfigs | null;
 };
 
 const Container = styled.div`
@@ -30,27 +30,8 @@ const Container = styled.div`
   justify-content: start;
 `;
 
-const BLOCKED_DATES: { start: Date; end: Date } | null = {
-  start: new Date("2022-11-05T00:00:00+08:00"),
-  end: new Date("2022-11-07T00:00:00+08:00"),
-};
-
 const Checkout = (props: CollectionProps) => {
-  const { setPage, collectionInfo, setCollectionInfo } = props;
-  const [backendPinged, setBackendPinged] = useState(false);
-
-  useEffect(() => {
-    if (!backendPinged) {
-      axios
-        .get(
-          "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/ping"
-        )
-        .then(() => setBackendPinged(true))
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, [backendPinged]);
+  const { setPage, collectionInfo, setCollectionInfo, configs } = props;
 
   const isDateValid = useCallback(
     (date: Date | undefined) => {
@@ -63,11 +44,16 @@ const Checkout = (props: CollectionProps) => {
           : [0, 3];
       return (
         allowedDays.includes(moment(date).day()) &&
-        (date < BLOCKED_DATES.start || date > BLOCKED_DATES.end) &&
+        (date < new Date(configs?.blockedDates?.start ?? new Date()) ||
+          date > new Date(configs?.blockedDates?.end ?? new Date())) &&
         date > moment().add(2, "days").startOf("day").toDate()
       );
     },
-    [collectionInfo.collectionMode]
+    [
+      collectionInfo.collectionMode,
+      configs?.blockedDates.start,
+      configs?.blockedDates.end,
+    ]
   );
 
   useEffect(() => {

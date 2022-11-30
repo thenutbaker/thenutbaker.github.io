@@ -12,7 +12,7 @@ import { Items } from "../App.types";
 import { ProductCode } from "../products.const";
 
 type MultiVariantSelectOption = {
-  productCode: ProductCode;
+  productCode: string;
   label: string;
 };
 
@@ -239,13 +239,13 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                         },
                       }}
                       onChange={(e) => {
-                        setItems((items) => {
+                        setItems((items: Items): Items => {
                           return {
                             ...items,
                             [option.productCode]: {
                               ...items[option.productCode],
                               [option.label]: e.target.value,
-                            },
+                            } as Record<string, number>,
                           };
                         });
                       }}

@@ -11,7 +11,7 @@ import {
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import { useState } from "react";
-import { CollectionInfo, Items, Page } from "../App.types";
+import { CollectionInfo, DynamicSpecials, Items, Page } from "../App.types";
 import { ProductCode, PRODUCTS } from "../products.const";
 import {
   calculatePriceMinor,
@@ -23,6 +23,7 @@ type CheckoutProps = {
   setPage: (page: Page) => void;
   items: Items;
   collectionInfo: CollectionInfo;
+  specials: DynamicSpecials | null;
 };
 
 const OrderSummaryContainer = styled.div`
@@ -65,13 +66,13 @@ const PayNowQr = styled.img`
 `;
 
 const Checkout = (props: CheckoutProps) => {
-  const { setPage, items, collectionInfo } = props;
+  const { setPage, items, collectionInfo, specials } = props;
 
   const [promoCode, setPromoCode] = useState("");
   const [promoDescription, setPromoDescription] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
-  const priceMinor = calculatePriceMinor(items);
+  const priceMinor = calculatePriceMinor(items, specials);
   const deliveryFeeRequired =
     collectionInfo.collectionMode === "delivery" && priceMinor < 5000;
   const totalPriceString = formatMinor(
@@ -179,7 +180,13 @@ const Checkout = (props: CheckoutProps) => {
           <OrderSummaryContainer>
             {(Object.keys(items) as ProductCode[]).map(
               (productCode: ProductCode) => {
-                const product = PRODUCTS[productCode];
+                let product: { label: string } = PRODUCTS[productCode];
+                if (!product) {
+                  product = specials?.products?.find(
+                    (specialProduct) =>
+                      specialProduct.productCode === productCode
+                  ) ?? { label: "error" };
+                }
                 const itemsOfProduct = items[productCode];
                 if (!itemsOfProduct) {
                   return null;
@@ -224,7 +231,10 @@ const Checkout = (props: CheckoutProps) => {
                       {product.label}
                     </Typography>
                     <Typography>
-                      {calculatePriceString({ [productCode]: itemsOfProduct })}
+                      {calculatePriceString(
+                        { [productCode]: itemsOfProduct },
+                        specials
+                      )}
                     </Typography>
                     <VariantsContainer>
                       {Object.keys(itemsOfProduct).map((variant) => {

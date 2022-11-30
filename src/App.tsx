@@ -4,13 +4,21 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import OrderInfo from "./pages/OrderInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Checkout from "./pages/Checkout";
-import { CollectionInfo, Items, Page } from "./App.types";
+import {
+  CollectionInfo,
+  DynamicConfigs,
+  DynamicFlavours,
+  DynamicSpecials,
+  Items,
+  Page,
+} from "./App.types";
 import Success from "./pages/Success";
 import { Link, Typography } from "@mui/material";
 import Collection from "./pages/Collection";
+import axios from "axios";
 
 const Container = styled.div`
   display: grid;
@@ -67,6 +75,22 @@ function App() {
     condoName: "",
     isGift: false,
   });
+
+  const [flavours, setFlavours] = useState<DynamicFlavours | null>(null);
+  const [configs, setConfigs] = useState<DynamicConfigs | null>(null);
+  const [specials, setSpecials] = useState<DynamicSpecials | null>(null);
+
+  useEffect(() => {
+    const fetchDynamic = async () => {
+      const response = await axios.get(
+        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/getDynamic"
+      );
+      setFlavours(response.data.flavours);
+      setConfigs(response.data.configs);
+      setSpecials(response.data.specials);
+    };
+    fetchDynamic();
+  }, []);
 
   const [page, setPage] = useState<Page>("order");
   return (
@@ -149,13 +173,20 @@ function App() {
       )}
 
       {page === "order" && (
-        <OrderInfo setItems={setItems} setPage={setPage} items={items} />
+        <OrderInfo
+          setItems={setItems}
+          setPage={setPage}
+          items={items}
+          flavours={flavours}
+          specials={specials}
+        />
       )}
       {page === "collection" && (
         <Collection
           setPage={setPage}
           collectionInfo={collectionInfo}
           setCollectionInfo={setCollectionInfo}
+          configs={configs}
         />
       )}
       {page === "checkout" && (
@@ -163,6 +194,7 @@ function App() {
           setPage={setPage}
           collectionInfo={collectionInfo}
           items={items}
+          specials={specials}
         />
       )}
       {page === "success" && <Success />}
