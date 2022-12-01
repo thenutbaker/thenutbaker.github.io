@@ -179,6 +179,7 @@ function App() {
           items={items}
           flavours={flavours}
           specials={specials}
+          configs={configs}
         />
       )}
       {page === "collection" && (

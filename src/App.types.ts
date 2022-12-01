@@ -29,6 +29,7 @@ export type DynamicConfigs = {
     start: Date;
     end: Date;
   };
+  granolaOfTheMonthDescription: string;
 };
 
 export enum UiElementType {

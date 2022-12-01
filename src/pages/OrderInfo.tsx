@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Button, CircularProgress, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import {
+  DynamicConfigs,
   DynamicFlavours,
   DynamicSpecials,
   Items,
@@ -24,6 +25,7 @@ type OrderInfoProps = {
   items: Items;
   flavours: DynamicFlavours | null;
   specials: DynamicSpecials | null;
+  configs: DynamicConfigs | null;
 };
 
 const Container = styled.div`
@@ -43,7 +45,7 @@ const CircularProgressContainer = styled.div`
 `;
 
 const OrderInfo = (props: OrderInfoProps) => {
-  const { setItems, items, setPage, flavours, specials } = props;
+  const { setItems, items, setPage, flavours, specials, configs } = props;
   const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
 
   const numItems = Object.keys(items).reduce<number>((sum, productCode) => {
@@ -59,12 +61,12 @@ const OrderInfo = (props: OrderInfoProps) => {
 
   return (
     <>
-      {flavours ? (
+      {flavours && configs ? (
         <>
           <Container>
             <SectionHeader
               title="Granola of the month"
-              subtitle="Proceeds will be donated to The Cat Welfare Society for their community and pet cat sterilisation program. Refer to our Instagram for more details!"
+              subtitle={configs.granolaOfTheMonthDescription}
             />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
