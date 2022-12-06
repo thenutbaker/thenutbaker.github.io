@@ -64,38 +64,42 @@ const OrderInfo = (props: OrderInfoProps) => {
       {flavours && configs ? (
         <>
           <Container>
-            <SectionHeader
-              title="Granola of the month"
-              subtitle={configs.granolaOfTheMonthDescription}
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="Granola of the month (200g)"
-              subtitle="$14 per pack"
-              options={[
-                {
-                  label: flavours?.granola_of_the_month ?? "",
-                  productCode: "GRANOLA_200_FOTM",
-                },
-              ]}
-              allowQuantitySelection
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="Granola of the month (400g)"
-              subtitle="$25 per pack"
-              options={[
-                {
-                  label: flavours?.granola_of_the_month ?? "",
-                  productCode: "GRANOLA_400_FOTM",
-                },
-              ]}
-              allowQuantitySelection
-            />
+            {flavours?.granola_of_the_month?.length > 0 && (
+              <>
+                <SectionHeader
+                  title="Granola of the month"
+                  subtitle={configs.granolaOfTheMonthDescription ?? ""}
+                />
+                <MultiVariantSelect
+                  setErrorMap={setErrorMap}
+                  setItems={setItems}
+                  items={items}
+                  title="Granola of the month (200g)"
+                  subtitle="$14 per pack"
+                  options={[
+                    {
+                      label: flavours?.granola_of_the_month ?? "",
+                      productCode: "GRANOLA_200_FOTM",
+                    },
+                  ]}
+                  allowQuantitySelection
+                />
+                <MultiVariantSelect
+                  setErrorMap={setErrorMap}
+                  setItems={setItems}
+                  items={items}
+                  title="Granola of the month (400g)"
+                  subtitle="$25 per pack"
+                  options={[
+                    {
+                      label: flavours?.granola_of_the_month ?? "",
+                      productCode: "GRANOLA_400_FOTM",
+                    },
+                  ]}
+                  allowQuantitySelection
+                />{" "}
+              </>
+            )}
             {specials &&
               specials.ui_elements.map((uiElement) => {
                 if (uiElement.type === UiElementType.Header) {
