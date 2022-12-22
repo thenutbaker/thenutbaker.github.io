@@ -44,6 +44,13 @@ const OptionsContainer = styled.div`
   gridtemplatecolumns: 4fr 1fr;
 `;
 
+const SingleOptionContainer = styled.div`
+  @media(max-width: 780px) {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+  },
+`;
+
 const MultiVariantSelect = (props: MultiVariantSelectProps) => {
   const {
     title,
@@ -170,7 +177,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
               )
             );
             return (
-              <>
+              <SingleOptionContainer>
                 <FormControlLabel
                   sx={{
                     gridColumnStart: "1",
@@ -259,7 +266,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                       ))}
                     </Select>
                   )}
-              </>
+              </SingleOptionContainer>
             );
           })}
         </OptionsContainer>
