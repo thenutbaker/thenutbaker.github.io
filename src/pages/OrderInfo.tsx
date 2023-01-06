@@ -244,20 +244,6 @@ const OrderInfo = (props: OrderInfoProps) => {
               setErrorMap={setErrorMap}
               setItems={setItems}
               items={items}
-              title="150g Nutty Crisps/Florentines"
-              subtitle={"$15 per pack"}
-              options={(flavours?.nuttie_florentines_short ?? []).map(
-                (flavour) => ({
-                  productCode: "NUTTIE_FLORENTINES_150",
-                  label: flavour,
-                })
-              )}
-              allowQuantitySelection
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
               title="200g Nutty Crisps/Florentines"
               subtitle={"$19 per pack"}
               options={(flavours?.nuttie_florentines_short ?? []).map(
