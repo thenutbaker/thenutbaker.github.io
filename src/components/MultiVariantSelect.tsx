@@ -41,14 +41,20 @@ type MultiVariantSelectProps = {
 
 const OptionsContainer = styled.div`
   display: grid;
-  gridtemplatecolumns: 4fr 1fr;
 `;
 
-const SingleOptionContainer = styled.div`
-  @media(max-width: 780px) {
+const SingleOptionContainer = styled.div<{ selected: boolean }>`
+  @media (max-width: 780px) {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
-  },
+  }
+  grid-template-columns: 1fr;
+  display: grid;
+  ${({ selected }) =>
+    selected &&
+    `
+  grid-template-columns: 3fr 1fr;
+`}
 `;
 
 const MultiVariantSelect = (props: MultiVariantSelectProps) => {
@@ -176,8 +182,11 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                 (quantity?.max ?? Number.MAX_SAFE_INTEGER) - qtyOfOthers
               )
             );
+            const selected = items[option.productCode]?.[option.label]
+              ? true
+              : false;
             return (
-              <SingleOptionContainer>
+              <SingleOptionContainer selected={selected}>
                 <FormControlLabel
                   sx={{
                     gridColumnStart: "1",
@@ -221,9 +230,7 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
                     />
                   }
                   label={option.label}
-                  checked={
-                    items[option.productCode]?.[option.label] ? true : false
-                  }
+                  checked={selected}
                   disabled={
                     maxAllowedQty <= 0 &&
                     !items[option.productCode]?.[option.label]
