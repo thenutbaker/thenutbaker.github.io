@@ -300,7 +300,7 @@ const Checkout = (props: CheckoutProps) => {
             <TextField
               label="Promo code"
               required
-              value={collectionInfo.giftRecipientName}
+              value={promoCode}
               onChange={(e) => {
                 setPromoApplied(false);
                 setPromoCode(e.target.value);
