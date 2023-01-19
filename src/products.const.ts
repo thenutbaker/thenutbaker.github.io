@@ -19,11 +19,11 @@ export const NUTBAKER_PASS_OPTIONS: {
   },
   {
     productCode: "NUTBAKER_PASS_SILVER",
-    label: "Silver - 8 x 400g, $166 ($52/kg)",
+    label: "Silver - 8 x 400g, $166 ($54/kg)",
   },
   {
     productCode: "NUTBAKER_PASS_GOLD",
-    label: "Gold - 15 x 400g, $288 ($48/kg)",
+    label: "Gold - 15 x 400g, $288 ($50/kg)",
   },
 ];
 
@@ -46,8 +46,7 @@ export type ProductCode =
   | "NUTBAKER_PASS_REGULAR"
   | "NUTBAKER_PASS_SILVER"
   | "NUTBAKER_PASS_GOLD"
-  | "NUTBAKER_HANDS_ON"
-  | "CHRISTMAS_BUNDLE";
+  | "NUTBAKER_HANDS_ON";
 
 type Product = {
   price: (quantity: number) => number;
@@ -55,10 +54,6 @@ type Product = {
 };
 
 export const PRODUCTS: Record<ProductCode, Product> = {
-  CHRISTMAS_BUNDLE: {
-    price: (quantity: number) => quantity * 1500,
-    label: "Christmas Bundle",
-  },
   GRANOLA_50: {
     /**
      * 4 for $16
@@ -104,13 +99,13 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       const remainder = quantity % 4;
       switch (remainder) {
         case 0:
-          return numBundlesOf4 * 5000;
+          return numBundlesOf4 * 5400;
         case 1:
-          return numBundlesOf4 * 5000 + 1400;
+          return numBundlesOf4 * 5400 + 1500;
         case 2:
-          return numBundlesOf4 * 5000 + 2700;
+          return numBundlesOf4 * 5400 + 2800;
         case 3:
-          return numBundlesOf4 * 5000 + 3900;
+          return numBundlesOf4 * 5400 + 4200;
         default:
           return 99999999999999;
       }
@@ -123,13 +118,13 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       const remainder = quantity % 4;
       switch (remainder) {
         case 0:
-          return numBundlesOf4 * 9000;
+          return numBundlesOf4 * 9800;
         case 1:
-          return numBundlesOf4 * 9000 + 2500;
+          return numBundlesOf4 * 9800 + 2600;
         case 2:
-          return numBundlesOf4 * 9000 + 4800;
+          return numBundlesOf4 * 9800 + 5000;
         case 3:
-          return numBundlesOf4 * 9000 + 7000;
+          return numBundlesOf4 * 9800 + 7500;
         default:
           return 99999999999999;
       }
@@ -149,7 +144,7 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     label: "200g Granola (Low Carb)",
   },
   LOW_CARB_GRANOLA_400: {
-    price: (quantity: number) => quantity * 3200,
+    price: (quantity: number) => quantity * 3500,
     label: "400g Granola (Low Carb)",
   },
   LACTATION_GRANOLA_200: {
@@ -157,7 +152,7 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     label: "200g Lactation Granola",
   },
   LACTATION_GRANOLA_400: {
-    price: (quantity: number) => quantity * 3200,
+    price: (quantity: number) => quantity * 3500,
     label: "400g Lactation Granola",
   },
   NUTTIE_FLORENTINES_100: {
@@ -217,19 +212,19 @@ export const PRODUCTS: Record<ProductCode, Product> = {
     label: "The Nutbaker Pass (Regular)",
   },
   NUTBAKER_PASS_SILVER: {
-    price: (quantity: number) => quantity * 16600,
+    price: (quantity: number) => quantity * 17200,
     label: "The Nutbaker Pass (Silver)",
   },
   NUTBAKER_PASS_GOLD: {
-    price: (quantity: number) => quantity * 28800,
+    price: (quantity: number) => quantity * 30000,
     label: "The Nutbaker Pass (Gold)",
   },
   NUTBAKER_HANDS_ON: {
     price: (quantity: number) => {
       if (quantity <= 2) {
-        return quantity * 7000;
+        return quantity * 8000;
       }
-      return quantity * 6000;
+      return quantity * 7000;
     },
     label: "The Nutbaker - Hands-on!",
   },
