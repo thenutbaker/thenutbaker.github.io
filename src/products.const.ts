@@ -19,11 +19,11 @@ export const NUTBAKER_PASS_OPTIONS: {
   },
   {
     productCode: "NUTBAKER_PASS_SILVER",
-    label: "Silver - 8 x 400g, $166 ($54/kg)",
+    label: "Silver - 8 x 400g, $172 ($54/kg)",
   },
   {
     productCode: "NUTBAKER_PASS_GOLD",
-    label: "Gold - 15 x 400g, $288 ($50/kg)",
+    label: "Gold - 15 x 400g, $300 ($50/kg)",
   },
 ];
 

@@ -147,7 +147,7 @@ const OrderInfo = (props: OrderInfoProps) => {
               setItems={setItems}
               items={items}
               title="200g Granola"
-              subtitle={"1 for $14, 2 for $27, 3 for $39, 4 for $50"}
+              subtitle={"1 for $15, 2 for $28, 3 for $42, 4 for $54"}
               options={(flavours?.granola ?? []).map((flavour) => ({
                 productCode: "GRANOLA_200",
                 label: flavour,
@@ -159,7 +159,7 @@ const OrderInfo = (props: OrderInfoProps) => {
               setItems={setItems}
               items={items}
               title="400g Granola"
-              subtitle="1 for $25, 2 for $48, 3 for $70, 4 for $90"
+              subtitle="1 for $26, 2 for $50, 3 for $75, 4 for $98"
               options={(flavours?.granola ?? []).map((flavour) => ({
                 productCode: "GRANOLA_400",
                 label: flavour,
@@ -187,7 +187,7 @@ const OrderInfo = (props: OrderInfoProps) => {
               setItems={setItems}
               items={items}
               title="400g Granola (Low Carb)"
-              subtitle="$32 per pack"
+              subtitle="$35 per pack"
               options={(flavours?.low_carb_granola ?? []).map((flavour) => ({
                 productCode: "LOW_CARB_GRANOLA_400",
                 label: flavour,
@@ -216,7 +216,7 @@ const OrderInfo = (props: OrderInfoProps) => {
               setItems={setItems}
               items={items}
               title="400g Lactation Granola"
-              subtitle="$32 per pack"
+              subtitle="$35 per pack"
               options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
                 productCode: "LACTATION_GRANOLA_400",
                 label: flavour,
@@ -304,7 +304,7 @@ const OrderInfo = (props: OrderInfoProps) => {
               setItems={setItems}
               items={items}
               title="The Nutbaker - Hands-on!"
-              subtitle="Min 2 pax, max 4 pax. 1-2 pax: $70 per pax. 3-4 pax: $60 per pax"
+              subtitle="Min 2 pax, max 4 pax. 2-3 pax: $80 per pax. 4 pax: $70 per pax"
               options={NUTBAKER_HANDS_ON_VARIANTS.map((variant) => ({
                 label: variant,
                 productCode: "NUTBAKER_HANDS_ON",
