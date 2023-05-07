@@ -110,6 +110,40 @@ function App() {
               }}
               display="inline-block"
             >
+              Founded by a Sport Dietitian, The Nutbaker prides itself on
+              natural food made by hand, not machines.
+            </Typography>
+          </HeaderTextContainer>
+
+          <HeaderTextContainer>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
+              We're all about wholesome and delicious bakes that are also less
+              sweet. Each product features different hand-selected ingredients
+              with no preservatives or colourings - just real honest eats for
+              you and your loved ones.
+            </Typography>
+          </HeaderTextContainer>
+
+          <HeaderTextContainer>
+            <Typography
+              sx={{
+                color: "white",
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  fontSize: "1em",
+                },
+              }}
+              display="inline-block"
+            >
               For details on ingredients, please refer to the "Menu" story tab
               on our&nbsp;
             </Typography>
@@ -138,21 +172,6 @@ function App() {
               display="inline-block"
             >
               &nbsp;page
-            </Typography>
-          </HeaderTextContainer>
-          <HeaderTextContainer>
-            <Typography
-              sx={{
-                color: "white",
-                fontSize: "0.9em",
-                "@media (min-width: 780px)": {
-                  fontSize: "1em",
-                },
-              }}
-              display="inline-block"
-            >
-              If you are purchasing gifts for multiple recipients, please
-              contact us directly.
             </Typography>
           </HeaderTextContainer>
           <HeaderTextContainer>
