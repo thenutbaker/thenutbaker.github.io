@@ -100,30 +100,6 @@ const OrderInfo = (props: OrderInfoProps) => {
                 />{" "}
               </>
             )}
-            {specials &&
-              specials.ui_elements.map((uiElement) => {
-                if (uiElement.type === UiElementType.Header) {
-                  return (
-                    <SectionHeader
-                      title={uiElement.title}
-                      subtitle={uiElement.subtitle}
-                    ></SectionHeader>
-                  );
-                } else if (uiElement.type === UiElementType.Selection) {
-                  return (
-                    <MultiVariantSelect
-                      setErrorMap={setErrorMap}
-                      setItems={setItems}
-                      items={items}
-                      title={uiElement.title}
-                      subtitle={uiElement.subtitle}
-                      options={uiElement.options}
-                      allowQuantitySelection
-                    />
-                  );
-                }
-                return null;
-              })}
             <SectionHeader
               title="Granola (The Classics)"
               subtitle="Medley of oats, rice puffs, nuts, and seeds"
@@ -254,6 +230,31 @@ const OrderInfo = (props: OrderInfoProps) => {
               )}
               allowQuantitySelection
             />
+
+            {specials &&
+              specials.ui_elements.map((uiElement) => {
+                if (uiElement.type === UiElementType.Header) {
+                  return (
+                    <SectionHeader
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                    ></SectionHeader>
+                  );
+                } else if (uiElement.type === UiElementType.Selection) {
+                  return (
+                    <MultiVariantSelect
+                      setErrorMap={setErrorMap}
+                      setItems={setItems}
+                      items={items}
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                      options={uiElement.options}
+                      allowQuantitySelection
+                    />
+                  );
+                }
+                return null;
+              })}
 
             <SectionHeader title="Muffins" />
             <MultiVariantSelect
