@@ -40,6 +40,7 @@ export type ProductCode =
   | "NUTTIE_FLORENTINES_100"
   | "NUTTIE_FLORENTINES_150"
   | "NUTTIE_FLORENTINES_200"
+  | "NUTTIE_FLORENTINES_300"
   | "MUFFINS"
   | "MUFFINS_4"
   | "NUTBAKER_PASS_OCCASIONAL"
@@ -166,6 +167,10 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   NUTTIE_FLORENTINES_200: {
     price: (quantity: number) => quantity * 1900,
     label: "200g Nutty Crisps/Florentines",
+  },
+  NUTTIE_FLORENTINES_300: {
+    price: (quantity: number) => quantity * 2800,
+    label: "300g Nutty Crisps/Florentines",
   },
   MUFFINS: {
     price: (quantity: number) => {
