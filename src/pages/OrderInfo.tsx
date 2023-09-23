@@ -33,6 +33,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  padding-bottom: 6rem;
+  @media (min-width: 780px) {
+    padding-bottom: 8rem;
+  }
 `;
 
 const CircularProgressContainer = styled.div`
@@ -335,14 +339,13 @@ const OrderInfo = (props: OrderInfoProps) => {
               backgroundColor: "#D2973D",
               gridColumnStart: "1",
               gridColumnEnd: "4",
-              marginTop: "4em",
               padding: "1em",
               display: "flex",
               marginBottom: "0",
               justifyContent: "space-between",
               height: "fit-content",
               alignContent: "center",
-              position: "sticky",
+              position: "fixed",
               bottom: 0,
               right: 0,
               left: 0,
