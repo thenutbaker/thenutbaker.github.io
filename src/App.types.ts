@@ -26,8 +26,8 @@ export type DynamicFlavours = {
 
 export type DynamicConfigs = {
   blockedDates: {
-    start: Date;
-    end: Date;
+    start: string;
+    end: string;
   };
   granolaOfTheMonthDescription: string;
 };

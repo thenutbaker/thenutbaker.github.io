@@ -40,20 +40,30 @@ const Checkout = (props: CollectionProps) => {
       }
       const allowedDays =
         collectionInfo.collectionMode === "self-collection"
-          ? [2, 4, 6]
+          ? [0, 1, 2, 3, 4, 5, 6]
           : [0, 3];
+      const blockedDateConfigs = configs?.blockedDates;
+      let isDateBlocked = false;
+      if (blockedDateConfigs?.start && blockedDateConfigs?.end) {
+        // due to bug in firebase UI, miliseconds of timestamp being set is non-zero
+        // as a result, we have to coerce the miliseconds to zero to ensure the comparison is correct
+        // this is particularly important for the datepicker's functionality of determine whether a date is selectable,
+        // since it checks the start of day (00:00:00.000)
+        const blockedDatesStart = new Date(
+          new Date(blockedDateConfigs.start).setMilliseconds(0)
+        );
+        const blockedDatesEnd = new Date(
+          new Date(blockedDateConfigs.end).setMilliseconds(0)
+        );
+        isDateBlocked = date >= blockedDatesStart && date <= blockedDatesEnd;
+      }
       return (
         allowedDays.includes(moment(date).day()) &&
-        (date < new Date(configs?.blockedDates?.start ?? new Date()) ||
-          date > new Date(configs?.blockedDates?.end ?? new Date())) &&
+        !isDateBlocked &&
         date > moment().add(2, "days").startOf("day").toDate()
       );
     },
-    [
-      collectionInfo.collectionMode,
-      configs?.blockedDates.start,
-      configs?.blockedDates.end,
-    ]
+    [collectionInfo.collectionMode, configs?.blockedDates]
   );
 
   useEffect(() => {
@@ -224,7 +234,7 @@ const Checkout = (props: CollectionProps) => {
             value={collectionInfo.collectionMode}
           >
             <FormControlLabel
-              label="Self-collection at 37A Pine Lane (Tue/Thu/Sat, 6pm-9pm)"
+              label="Self-collection at 391037"
               control={<Radio />}
               value="self-collection"
             />
@@ -259,7 +269,7 @@ const Checkout = (props: CollectionProps) => {
               }
               disablePast
               shouldDisableDate={(date) => {
-                return !isDateValid(date);
+                return !isDateValid(moment(date).toDate());
               }}
               renderInput={(params) => {
                 return <TextField {...params} />;
