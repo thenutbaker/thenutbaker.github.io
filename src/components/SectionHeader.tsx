@@ -4,9 +4,15 @@ type SectionHeaderProps = {
   title: string;
   subtitle?: string;
   extraMarginTop?: boolean;
+  subtitleSetInnerHtml?: boolean;
 };
 const SectionHeader = (props: SectionHeaderProps) => {
-  const { title, subtitle, extraMarginTop = true } = props;
+  const {
+    title,
+    subtitle,
+    extraMarginTop = true,
+    subtitleSetInnerHtml,
+  } = props;
   return (
     <Paper
       sx={{
@@ -43,9 +49,14 @@ const SectionHeader = (props: SectionHeaderProps) => {
               fontSize: "1em",
             },
           }}
-        >
-          {subtitle}
-        </Typography>
+          {...(subtitleSetInnerHtml
+            ? {
+                dangerouslySetInnerHTML: {
+                  __html: subtitle,
+                },
+              }
+            : { children: [subtitle] })}
+        ></Typography>
       )}
     </Paper>
   );

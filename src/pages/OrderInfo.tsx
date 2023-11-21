@@ -14,7 +14,6 @@ import SectionHeader from "../components/SectionHeader";
 import {
   LACTATION_GRANOLA_FLAVOURS,
   NUTBAKER_HANDS_ON_VARIANTS,
-  NUTBAKER_PASS_OPTIONS,
   ProductCode,
 } from "../products.const";
 import { calculatePriceString } from "../utils";
@@ -68,42 +67,34 @@ const OrderInfo = (props: OrderInfoProps) => {
       {flavours && configs ? (
         <>
           <Container>
-            {flavours?.granola_of_the_month?.length > 0 && (
-              <>
-                <SectionHeader
-                  title="Granola of the month"
-                  subtitle={configs.granolaOfTheMonthDescription ?? ""}
-                />
-                <MultiVariantSelect
-                  setErrorMap={setErrorMap}
-                  setItems={setItems}
-                  items={items}
-                  title="Granola of the month (200g)"
-                  subtitle="$14 per pack"
-                  options={[
-                    {
-                      label: flavours?.granola_of_the_month ?? "",
-                      productCode: "GRANOLA_200_FOTM",
-                    },
-                  ]}
-                  allowQuantitySelection
-                />
-                <MultiVariantSelect
-                  setErrorMap={setErrorMap}
-                  setItems={setItems}
-                  items={items}
-                  title="Granola of the month (400g)"
-                  subtitle="$25 per pack"
-                  options={[
-                    {
-                      label: flavours?.granola_of_the_month ?? "",
-                      productCode: "GRANOLA_400_FOTM",
-                    },
-                  ]}
-                  allowQuantitySelection
-                />{" "}
-              </>
-            )}
+            {specials &&
+              specials.top_ui_elements.map((uiElement) => {
+                if (uiElement.type === UiElementType.Header) {
+                  return (
+                    <SectionHeader
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                      {...(uiElement.subtitleSetInnerHtml && {
+                        subtitleSetInnerHtml: true,
+                      })}
+                    ></SectionHeader>
+                  );
+                } else if (uiElement.type === UiElementType.Selection) {
+                  return (
+                    <MultiVariantSelect
+                      setErrorMap={setErrorMap}
+                      setItems={setItems}
+                      items={items}
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                      options={uiElement.options}
+                      allowQuantitySelection
+                    />
+                  );
+                }
+                return null;
+              })}
+
             <SectionHeader
               title="Granola (The Classics)"
               subtitle="Medley of oats, rice puffs, nuts, and seeds"
@@ -249,31 +240,6 @@ const OrderInfo = (props: OrderInfoProps) => {
               allowQuantitySelection
             />
 
-            {specials &&
-              specials.ui_elements.map((uiElement) => {
-                if (uiElement.type === UiElementType.Header) {
-                  return (
-                    <SectionHeader
-                      title={uiElement.title}
-                      subtitle={uiElement.subtitle}
-                    ></SectionHeader>
-                  );
-                } else if (uiElement.type === UiElementType.Selection) {
-                  return (
-                    <MultiVariantSelect
-                      setErrorMap={setErrorMap}
-                      setItems={setItems}
-                      items={items}
-                      title={uiElement.title}
-                      subtitle={uiElement.subtitle}
-                      options={uiElement.options}
-                      allowQuantitySelection
-                    />
-                  );
-                }
-                return null;
-              })}
-
             <SectionHeader title="Muffins" />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
@@ -300,19 +266,30 @@ const OrderInfo = (props: OrderInfoProps) => {
               allowQuantitySelection
             />
 
-            <SectionHeader
-              title="The Nutbaker Pass"
-              subtitle="Bulk orders for granola, get them delivered as and when you like!"
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="The Nutbaker Pass"
-              subtitle="Pls DM/ whatsapp me at 88016714 to indicate delivery details and flavour choices."
-              options={NUTBAKER_PASS_OPTIONS}
-              allowQuantitySelection={false}
-            />
+            {specials &&
+              specials.bottom_ui_elements.map((uiElement) => {
+                if (uiElement.type === UiElementType.Header) {
+                  return (
+                    <SectionHeader
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                    ></SectionHeader>
+                  );
+                } else if (uiElement.type === UiElementType.Selection) {
+                  return (
+                    <MultiVariantSelect
+                      setErrorMap={setErrorMap}
+                      setItems={setItems}
+                      items={items}
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                      options={uiElement.options}
+                      allowQuantitySelection
+                    />
+                  );
+                }
+                return null;
+              })}
 
             <SectionHeader
               title="The Nutbaker - Hands-on!"
