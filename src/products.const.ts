@@ -5,28 +5,6 @@ export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + 3 Muffins",
 ];
 
-export const NUTBAKER_PASS_OPTIONS: {
-  productCode: ProductCode;
-  label: string;
-}[] = [
-  {
-    productCode: "NUTBAKER_PASS_OCCASIONAL",
-    label: "Occasional - 8 x 200g, $96 ($60/kg)",
-  },
-  {
-    productCode: "NUTBAKER_PASS_REGULAR",
-    label: "Regular - 15 x 200g, $168 ($56/kg)",
-  },
-  {
-    productCode: "NUTBAKER_PASS_SILVER",
-    label: "Silver - 8 x 400g, $172 ($54/kg)",
-  },
-  {
-    productCode: "NUTBAKER_PASS_GOLD",
-    label: "Gold - 15 x 400g, $300 ($50/kg)",
-  },
-];
-
 export type ProductCode =
   | "GRANOLA_50"
   | "GRANOLA_200"
@@ -43,10 +21,6 @@ export type ProductCode =
   | "NUTTIE_FLORENTINES_300"
   | "MUFFINS"
   | "MUFFINS_4"
-  | "NUTBAKER_PASS_OCCASIONAL"
-  | "NUTBAKER_PASS_REGULAR"
-  | "NUTBAKER_PASS_SILVER"
-  | "NUTBAKER_PASS_GOLD"
   | "NUTBAKER_HANDS_ON";
 
 type Product = {
@@ -207,22 +181,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       }
     },
     label: "Muffins (Box of 4)",
-  },
-  NUTBAKER_PASS_OCCASIONAL: {
-    price: (quantity: number) => quantity * 9600,
-    label: "The Nutbaker Pass (Occasional)",
-  },
-  NUTBAKER_PASS_REGULAR: {
-    price: (quantity: number) => quantity * 16800,
-    label: "The Nutbaker Pass (Regular)",
-  },
-  NUTBAKER_PASS_SILVER: {
-    price: (quantity: number) => quantity * 17200,
-    label: "The Nutbaker Pass (Silver)",
-  },
-  NUTBAKER_PASS_GOLD: {
-    price: (quantity: number) => quantity * 30000,
-    label: "The Nutbaker Pass (Gold)",
   },
   NUTBAKER_HANDS_ON: {
     price: (quantity: number) => {

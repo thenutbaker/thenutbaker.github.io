@@ -41,6 +41,7 @@ type HeaderUiElement = {
   type: UiElementType.Header;
   title: string;
   subtitle: string;
+  subtitleSetInnerHtml?: boolean;
 };
 
 type SelectionUiElement = {
@@ -59,5 +60,6 @@ export type DynamicSpecials = {
     price: number;
     productCode: string;
   }[];
-  ui_elements: (HeaderUiElement | SelectionUiElement)[];
+  bottom_ui_elements: (HeaderUiElement | SelectionUiElement)[];
+  top_ui_elements: (HeaderUiElement | SelectionUiElement)[];
 };

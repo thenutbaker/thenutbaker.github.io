@@ -148,6 +148,8 @@ const MultiVariantSelect = (props: MultiVariantSelectProps) => {
             "@media(min-width: 780px)": {
               fontSize: "0.9em",
             },
+            // this is needed to support multiline text
+            whiteSpace: "pre-line",
           }}
         >
           {subtitle}
