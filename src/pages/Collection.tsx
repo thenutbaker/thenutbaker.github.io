@@ -41,7 +41,7 @@ const Checkout = (props: CollectionProps) => {
       const allowedDays =
         collectionInfo.collectionMode === "self-collection"
           ? [0, 1, 2, 3, 4, 5, 6]
-          : [0, 3];
+          : [3, 5];
       const blockedDateConfigs = configs?.blockedDates;
       let isDateBlocked = false;
       if (blockedDateConfigs?.start && blockedDateConfigs?.end) {
@@ -239,7 +239,7 @@ const Checkout = (props: CollectionProps) => {
               value="self-collection"
             />
             <FormControlLabel
-              label="Delivery (Wed/Sun)"
+              label="Delivery (Wed/Fri)"
               control={<Radio />}
               value="delivery"
             />
