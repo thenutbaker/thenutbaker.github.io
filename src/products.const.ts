@@ -3,6 +3,7 @@ export const LACTATION_GRANOLA_FLAVOURS = ["Lactation Granola"];
 export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + Oatmeal Cookies",
   "200g Granola + Muffins",
+  "200g Granola + Yoghurt Parfait Assembly",
 ];
 
 export type ProductCode =
