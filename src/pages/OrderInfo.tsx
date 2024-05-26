@@ -97,7 +97,7 @@ const OrderInfo = (props: OrderInfoProps) => {
 
             <SectionHeader
               title="Granola (The Classics)"
-              subtitle="Medley of oats, rice puffs, nuts, and seeds"
+              subtitle="Medley of rolled oats, nuts & seeds, rice puffs, and a whole of flavours including a monthly special! Lower in sugar, and higher in protein compared to commercial brands to keep you full for longer."
             />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
@@ -139,7 +139,7 @@ const OrderInfo = (props: OrderInfoProps) => {
             />
             <SectionHeader
               title="Granola (Low Carb)"
-              subtitle="Grain-free, higher in protein and healthy fats"
+              subtitle="Grain free (no oats), just nuts & seeds for a higher protein option. Choice of golden syrup (crispy option) or sugar-free syrup (keto option)."
             />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
