@@ -96,8 +96,8 @@ const OrderInfo = (props: OrderInfoProps) => {
               })}
 
             <SectionHeader
-              title="Granola (The Classics)"
-              subtitle="Medley of rolled oats, nuts & seeds, rice puffs, and a whole of flavours including a monthly special! Lower in sugar, and higher in protein compared to commercial brands to keep you full for longer."
+              title="Granola (Classics)"
+              subtitle="Medley of rolled oats, nuts & seeds, rice puffs, and a whole range of flavours including a monthly special! Lower in sugar, and higher in protein to keep you full for longer."
             />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
