@@ -76,7 +76,7 @@ const Checkout = (props: CheckoutProps) => {
   const deliveryFeeRequired =
     collectionInfo.collectionMode === "delivery" && priceMinor < 5000;
   const totalPriceString = formatMinor(
-    priceMinor + (deliveryFeeRequired ? 800 : 0) - promoDiscount
+    priceMinor + (deliveryFeeRequired ? 1000 : 0) - promoDiscount
   );
 
   const [isPromoQueryLoading, setIsPromoQueryLoading] = useState(false);
@@ -257,7 +257,7 @@ const Checkout = (props: CheckoutProps) => {
             {deliveryFeeRequired && (
               <>
                 <Typography sx={{ fontSize: "1em" }}>Delivery Fee</Typography>
-                <Typography>$8.00</Typography>
+                <Typography>$10.00</Typography>
               </>
             )}
             {promoDiscount > 0 && (
