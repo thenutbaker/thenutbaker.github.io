@@ -363,6 +363,11 @@ const Checkout = (props: CheckoutProps) => {
           >
             Payment Instructions
           </Typography>
+          <Typography
+            sx={{ color: "red", fontWeight: "medium", marginBottom: "0.5em" }}
+          >
+            Please remember to confirm your order after paying!
+          </Typography>
           <Typography sx={{ marginBottom: "0.5em" }}>
             Payment can be made via 2 options:
           </Typography>
