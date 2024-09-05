@@ -6,6 +6,7 @@ export type CollectionInfo = {
   isGift: boolean;
   deliveryAddress?: string;
   condoName?: string;
+  deliveryInstructions?: string;
   unitNumber?: string;
   postalCode?: string;
   giftRecipientName?: string;
