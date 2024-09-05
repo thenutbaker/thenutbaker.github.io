@@ -12,9 +12,9 @@ import {
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
+import "moment/locale/en-sg";
 import { useCallback, useEffect } from "react";
 import { CollectionInfo, DynamicConfigs, Page } from "../App.types";
-import "moment/locale/en-sg";
 
 type CollectionProps = {
   setPage: (page: Page) => void;
@@ -41,7 +41,7 @@ const Checkout = (props: CollectionProps) => {
       const allowedDays =
         collectionInfo.collectionMode === "self-collection"
           ? [0, 1, 2, 3, 4, 5, 6]
-          : [3, 5];
+          : [1, 3, 5];
       const blockedDateConfigs = configs?.blockedDates;
       let isDateBlocked = false;
       if (blockedDateConfigs?.start && blockedDateConfigs?.end) {
@@ -239,7 +239,7 @@ const Checkout = (props: CollectionProps) => {
               value="self-collection"
             />
             <FormControlLabel
-              label="Delivery (Wed/Fri)"
+              label="Delivery (Mon/Wed/Fri)"
               control={<Radio />}
               value="delivery"
             />
@@ -322,12 +322,24 @@ const Checkout = (props: CollectionProps) => {
                 }}
               ></TextField>
               <TextField
+                sx={{ marginBottom: "1em" }}
                 label="Condo Name (if applicable)"
                 value={collectionInfo.condoName}
                 onChange={(e) =>
                   setCollectionInfo((prev) => ({
                     ...prev,
                     condoName: e.target.value,
+                  }))
+                }
+              ></TextField>
+
+              <TextField
+                label="Delivery Instructions (e.g. condo tower, lift lobby details)"
+                value={collectionInfo.deliveryInstructions}
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    deliveryInstructions: e.target.value,
                   }))
                 }
               ></TextField>
