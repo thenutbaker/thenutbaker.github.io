@@ -1,12 +1,12 @@
-import "./App.css";
+import styled from "@emotion/styled";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import OrderInfo from "./pages/OrderInfo";
+import { Link, Typography } from "@mui/material";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import Checkout from "./pages/Checkout";
+import "./App.css";
 import {
   CollectionInfo,
   DynamicConfigs,
@@ -15,10 +15,10 @@ import {
   Items,
   Page,
 } from "./App.types";
-import Success from "./pages/Success";
-import { Link, Typography } from "@mui/material";
+import Checkout from "./pages/Checkout";
 import Collection from "./pages/Collection";
-import axios from "axios";
+import OrderInfo from "./pages/OrderInfo";
+import Success from "./pages/Success";
 
 const Container = styled.div`
   display: grid;
@@ -187,6 +187,23 @@ function App() {
             >
               {"Free delivery for orders > $50."}
             </Typography>
+          </HeaderTextContainer>
+          <HeaderTextContainer>
+            <Link
+              sx={{
+                fontSize: "0.9em",
+                "@media (min-width: 780px)": {
+                  display: "none",
+                },
+              }}
+              // this means open the page in new tab/window
+              target="_blank"
+              color="#F5D998"
+              display="inline-block"
+              href="https://wa.me/qr/5QTBKYHMZGEZG1"
+            >
+              {"Queries? WhatsApp us"}
+            </Link>
           </HeaderTextContainer>
         </HeaderContainer>
       )}
