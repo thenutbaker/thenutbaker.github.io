@@ -103,20 +103,6 @@ const OrderInfo = (props: OrderInfoProps) => {
               setErrorMap={setErrorMap}
               setItems={setItems}
               items={items}
-              title="50g Granola"
-              subtitle="4 for $16, 5 for $19, 6 for $22, 7 for $25. Minimum order of 4 packs per flavour"
-              options={(flavours?.granola ?? []).map((flavour) => ({
-                productCode: "GRANOLA_50",
-                label: flavour,
-              }))}
-              quantity={{ min: 4 }}
-              minSingleQuantity={4}
-              allowQuantitySelection
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
               title="200g Granola"
               subtitle={"1 for $15, 2 for $28, 3 for $42, 4 for $54"}
               options={(flavours?.granola ?? []).map((flavour) => ({
