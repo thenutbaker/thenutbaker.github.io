@@ -11,11 +11,7 @@ import {
 } from "../App.types";
 import MultiVariantSelect from "../components/MultiVariantSelect";
 import SectionHeader from "../components/SectionHeader";
-import {
-  LACTATION_GRANOLA_FLAVOURS,
-  NUTBAKER_HANDS_ON_VARIANTS,
-  ProductCode,
-} from "../products.const";
+import { NUTBAKER_HANDS_ON_VARIANTS, ProductCode } from "../products.const";
 import { calculatePriceString } from "../utils";
 
 type OrderInfoProps = {
@@ -153,49 +149,8 @@ const OrderInfo = (props: OrderInfoProps) => {
             />
 
             <SectionHeader
-              title="Lactation Granola"
-              subtitle="We fortify oats (a natural milk booster) with omega-3 rich ingredients like walnuts, chia and flax seeds to help mamas stimulate milk production!"
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="200g Lactation Granola"
-              subtitle={"$18 per pack"}
-              options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
-                productCode: "LACTATION_GRANOLA_200",
-                label: flavour,
-              }))}
-              allowQuantitySelection
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="400g Lactation Granola"
-              subtitle="$35 per pack"
-              options={LACTATION_GRANOLA_FLAVOURS.map((flavour) => ({
-                productCode: "LACTATION_GRANOLA_400",
-                label: flavour,
-              }))}
-              allowQuantitySelection
-            />
-
-            <SectionHeader
               title="Nutty Crisps/Florentines"
               subtitle="Sweet-savoury blend of nuts and seeds. Thin and crispy, they're seriously addictive!"
-            />
-            <MultiVariantSelect
-              setErrorMap={setErrorMap}
-              setItems={setItems}
-              items={items}
-              title="100g Nutty Crisps/Florentines"
-              subtitle={"$10 per pack"}
-              options={(flavours?.nuttie_florentines ?? []).map((flavour) => ({
-                productCode: "NUTTIE_FLORENTINES_100",
-                label: flavour,
-              }))}
-              allowQuantitySelection
             />
             <MultiVariantSelect
               setErrorMap={setErrorMap}
