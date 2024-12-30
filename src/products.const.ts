@@ -1,5 +1,3 @@
-export const LACTATION_GRANOLA_FLAVOURS = ["Lactation Granola"];
-
 export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + Oatmeal Cookies",
   "200g Granola + Muffins",
@@ -14,10 +12,6 @@ export type ProductCode =
   | "GRANOLA_400_FOTM"
   | "LOW_CARB_GRANOLA_200"
   | "LOW_CARB_GRANOLA_400"
-  | "LACTATION_GRANOLA_200"
-  | "LACTATION_GRANOLA_400"
-  | "NUTTIE_FLORENTINES_100"
-  | "NUTTIE_FLORENTINES_150"
   | "NUTTIE_FLORENTINES_200"
   | "NUTTIE_FLORENTINES_300"
   | "MUFFINS"
@@ -122,22 +116,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
   LOW_CARB_GRANOLA_400: {
     price: (quantity: number) => quantity * 3500,
     label: "400g Granola (Low Carb)",
-  },
-  LACTATION_GRANOLA_200: {
-    price: (quantity: number) => quantity * 1800,
-    label: "200g Lactation Granola",
-  },
-  LACTATION_GRANOLA_400: {
-    price: (quantity: number) => quantity * 3500,
-    label: "400g Lactation Granola",
-  },
-  NUTTIE_FLORENTINES_100: {
-    price: (quantity: number) => quantity * 1000,
-    label: "100g Nutty Crisps/Florentines",
-  },
-  NUTTIE_FLORENTINES_150: {
-    price: (quantity: number) => quantity * 1500,
-    label: "150g Nutty Crisps/Florentines",
   },
   NUTTIE_FLORENTINES_200: {
     price: (quantity: number) => quantity * 1900,
