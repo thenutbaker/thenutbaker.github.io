@@ -4,16 +4,12 @@ export const NUTBAKER_HANDS_ON_VARIANTS = [
   "200g Granola + Yoghurt Parfait Assembly",
 ];
 
+// note: only products with bundle pricing have the logic hardcoded here, due to the complexity of calculation
+// prices for products with fixed pricing are stored in the database
 export type ProductCode =
   | "GRANOLA_50"
   | "GRANOLA_200"
   | "GRANOLA_400"
-  | "GRANOLA_200_FOTM"
-  | "GRANOLA_400_FOTM"
-  | "LOW_CARB_GRANOLA_200"
-  | "LOW_CARB_GRANOLA_400"
-  | "NUTTIE_FLORENTINES_200"
-  | "NUTTIE_FLORENTINES_300"
   | "MUFFINS"
   | "MUFFINS_4"
   | "NUTBAKER_HANDS_ON";
@@ -100,30 +96,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       }
     },
     label: "400g Granola",
-  },
-  GRANOLA_200_FOTM: {
-    price: (quantity: number) => quantity * 1400,
-    label: "Granola of the month (200g)",
-  },
-  GRANOLA_400_FOTM: {
-    price: (quantity: number) => quantity * 2500,
-    label: "Granola of the month (400g)",
-  },
-  LOW_CARB_GRANOLA_200: {
-    price: (quantity: number) => quantity * 1800,
-    label: "200g Granola (Low Carb)",
-  },
-  LOW_CARB_GRANOLA_400: {
-    price: (quantity: number) => quantity * 3500,
-    label: "400g Granola (Low Carb)",
-  },
-  NUTTIE_FLORENTINES_200: {
-    price: (quantity: number) => quantity * 1900,
-    label: "200g Nutty Crisps/Florentines",
-  },
-  NUTTIE_FLORENTINES_300: {
-    price: (quantity: number) => quantity * 2800,
-    label: "300g Nutty Crisps/Florentines",
   },
   MUFFINS: {
     price: (quantity: number) => {
