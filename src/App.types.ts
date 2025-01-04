@@ -53,6 +53,12 @@ type SelectionUiElement = {
     productCode: string;
   }[];
   minSingleQuantity?: number;
+  singleItemMaxQuantity?: number;
+  quantity?: {
+    min?: number;
+    max?: number;
+    validateZero?: boolean;
+  };
 };
 
 type SelectionWithFlavoursUiElement = {
@@ -62,6 +68,12 @@ type SelectionWithFlavoursUiElement = {
   productCode: string;
   flavourKey: keyof DynamicFlavours;
   minSingleQuantity?: number;
+  singleItemMaxQuantity?: number;
+  quantity?: {
+    min?: number;
+    max?: number;
+    validateZero?: boolean;
+  };
 };
 
 type UiElement =
@@ -77,4 +89,5 @@ export type DynamicSpecials = {
   }[];
   bottom_ui_elements: UiElement[];
   top_ui_elements: UiElement[];
+  ui_elements: UiElement[];
 };
