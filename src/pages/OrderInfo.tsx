@@ -84,6 +84,27 @@ const OrderInfo = (props: OrderInfoProps) => {
                       title={uiElement.title}
                       subtitle={uiElement.subtitle}
                       options={uiElement.options}
+                      minSingleQuantity={uiElement.minSingleQuantity}
+                      allowQuantitySelection
+                    />
+                  );
+                } else if (
+                  uiElement.type === UiElementType.SelectionWithFlavours
+                ) {
+                  return (
+                    <MultiVariantSelect
+                      setErrorMap={setErrorMap}
+                      setItems={setItems}
+                      items={items}
+                      title={uiElement.title}
+                      subtitle={uiElement.subtitle}
+                      options={(flavours?.[uiElement.flavourKey] ?? []).map(
+                        (flavour) => ({
+                          productCode: uiElement.productCode,
+                          label: flavour,
+                        })
+                      )}
+                      minSingleQuantity={uiElement.minSingleQuantity}
                       allowQuantitySelection
                     />
                   );

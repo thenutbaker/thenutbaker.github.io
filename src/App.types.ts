@@ -18,7 +18,6 @@ export type Page = "order" | "collection" | "checkout" | "success";
 
 export type DynamicFlavours = {
   granola: string[];
-  granola_of_the_month: string;
   muffins: string[];
   low_carb_granola: string[];
   nuttie_florentines: string[];
@@ -30,12 +29,12 @@ export type DynamicConfigs = {
     start: string;
     end: string;
   };
-  granolaOfTheMonthDescription: string;
 };
 
 export enum UiElementType {
   Header = "header",
   Selection = "selection",
+  SelectionWithFlavours = "selection-with-flavours",
 }
 
 type HeaderUiElement = {
@@ -53,7 +52,22 @@ type SelectionUiElement = {
     label: string;
     productCode: string;
   }[];
+  minSingleQuantity?: number;
 };
+
+type SelectionWithFlavoursUiElement = {
+  type: UiElementType.SelectionWithFlavours;
+  title: string;
+  subtitle: string;
+  productCode: string;
+  flavourKey: keyof DynamicFlavours;
+  minSingleQuantity?: number;
+};
+
+type UiElement =
+  | HeaderUiElement
+  | SelectionUiElement
+  | SelectionWithFlavoursUiElement;
 
 export type DynamicSpecials = {
   products: {
@@ -61,6 +75,6 @@ export type DynamicSpecials = {
     price: number;
     productCode: string;
   }[];
-  bottom_ui_elements: (HeaderUiElement | SelectionUiElement)[];
-  top_ui_elements: (HeaderUiElement | SelectionUiElement)[];
+  bottom_ui_elements: UiElement[];
+  top_ui_elements: UiElement[];
 };
