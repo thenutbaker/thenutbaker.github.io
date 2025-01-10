@@ -10,8 +10,6 @@ export type ProductCode =
   | "GRANOLA_50"
   | "GRANOLA_200"
   | "GRANOLA_400"
-  | "MUFFINS"
-  | "MUFFINS_4"
   | "NUTBAKER_HANDS_ON";
 
 type Product = {
@@ -96,42 +94,6 @@ export const PRODUCTS: Record<ProductCode, Product> = {
       }
     },
     label: "400g Granola",
-  },
-  MUFFINS: {
-    price: (quantity: number) => {
-      const numBundlesOf3 = Math.floor(quantity / 3);
-      const remainder = quantity % 3;
-      switch (remainder) {
-        case 0:
-          return numBundlesOf3 * 5600;
-        case 1:
-          return numBundlesOf3 * 5600 + 2000;
-        case 2:
-          return numBundlesOf3 * 5600 + 3800;
-        default:
-          return 99999999999999;
-      }
-    },
-    label: "Muffins (Box of 6)",
-  },
-  MUFFINS_4: {
-    price: (quantity: number) => {
-      const numBundlesOf4 = Math.floor(quantity / 4);
-      const remainder = quantity % 4;
-      switch (remainder) {
-        case 0:
-          return numBundlesOf4 * 5500;
-        case 1:
-          return numBundlesOf4 * 5500 + 1500;
-        case 2:
-          return numBundlesOf4 * 5500 + 2900;
-        case 3:
-          return numBundlesOf4 * 5500 + 4200;
-        default:
-          return 99999999999999;
-      }
-    },
-    label: "Muffins (Box of 4)",
   },
   NUTBAKER_HANDS_ON: {
     price: (quantity: number) => {
