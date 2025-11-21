@@ -14,6 +14,7 @@ import {
   DynamicSpecials,
   Items,
   Page,
+  UiElementType,
 } from "./App.types";
 import Checkout from "./pages/Checkout";
 import Collection from "./pages/Collection";
@@ -85,6 +86,10 @@ function App() {
       const response = await axios.get(
         "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/getDynamic"
       );
+      response.data.specials.ui_elements.splice(1, 0, {
+        type: UiElementType.Image,
+        filename: "christmas.jpg",
+      });
       setFlavours(response.data.flavours);
       setConfigs(response.data.configs);
       setSpecials(response.data.specials);

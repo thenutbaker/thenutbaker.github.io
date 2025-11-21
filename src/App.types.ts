@@ -35,6 +35,7 @@ export enum UiElementType {
   Header = "header",
   Selection = "selection",
   SelectionWithFlavours = "selection-with-flavours",
+  Image = "image",
 }
 
 type HeaderUiElement = {
@@ -42,6 +43,11 @@ type HeaderUiElement = {
   title: string;
   subtitle: string;
   subtitleSetInnerHtml?: boolean;
+};
+
+type ImageUiElement = {
+  type: UiElementType.Image;
+  filename: string;
 };
 
 type SelectionUiElement = {
@@ -79,7 +85,8 @@ type SelectionWithFlavoursUiElement = {
 type UiElement =
   | HeaderUiElement
   | SelectionUiElement
-  | SelectionWithFlavoursUiElement;
+  | SelectionWithFlavoursUiElement
+  | ImageUiElement;
 
 export type DynamicSpecials = {
   products: {

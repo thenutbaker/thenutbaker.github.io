@@ -43,6 +43,12 @@ const CircularProgressContainer = styled.div`
   color: #f5d998;
 `;
 
+const Image = styled.img`
+  margin: 1em 0 0 0;
+  align-self: center;
+  max-width: 100%;
+`;
+
 const OrderInfo = (props: OrderInfoProps) => {
   const { setItems, items, setPage, flavours, specials, configs } = props;
   const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
@@ -57,6 +63,7 @@ const OrderInfo = (props: OrderInfoProps) => {
       Object.values(itemsOfProduct).reduce((sum, qty) => sum + (qty ?? 0), 0)
     );
   }, 0);
+  const uiElements = specials?.ui_elements ?? [];
 
   return (
     <>
@@ -64,7 +71,7 @@ const OrderInfo = (props: OrderInfoProps) => {
         <>
           <Container>
             {specials &&
-              specials.ui_elements.map((uiElement) => {
+              uiElements.map((uiElement) => {
                 if (uiElement.type === UiElementType.Header) {
                   return (
                     <SectionHeader
@@ -109,6 +116,13 @@ const OrderInfo = (props: OrderInfoProps) => {
                       minSingleQuantity={uiElement.minSingleQuantity}
                       quantity={uiElement.quantity}
                       allowQuantitySelection
+                    />
+                  );
+                } else if (uiElement.type === UiElementType.Image) {
+                  return (
+                    <Image
+                      alt={uiElement.filename}
+                      src={`/${uiElement.filename}`}
                     />
                   );
                 }
