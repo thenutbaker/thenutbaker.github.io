@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Items } from "../App.types";
-import { ProductCode } from "../products.const";
 
 type MultiVariantSelectOption = {
   productCode: string;
@@ -17,7 +16,7 @@ type MultiVariantSelectOption = {
 };
 
 export type MultiVariantSelectSelection = {
-  productCode: ProductCode;
+  productCode: string;
   label: string;
   quantity: number;
 };

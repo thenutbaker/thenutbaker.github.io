@@ -11,8 +11,7 @@ import {
 } from "../App.types";
 import MultiVariantSelect from "../components/MultiVariantSelect";
 import SectionHeader from "../components/SectionHeader";
-import { ProductCode } from "../products.const";
-import { calculatePriceString } from "../utils";
+import { usePriceBreakdown } from "../usePriceBreakdown";
 
 type OrderInfoProps = {
   setItems: React.Dispatch<React.SetStateAction<Items>>;
@@ -54,7 +53,7 @@ const OrderInfo = (props: OrderInfoProps) => {
   const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
 
   const numItems = Object.keys(items).reduce<number>((sum, productCode) => {
-    const itemsOfProduct = items[productCode as ProductCode];
+    const itemsOfProduct = items[productCode];
     if (!itemsOfProduct) {
       return sum;
     }
@@ -64,6 +63,7 @@ const OrderInfo = (props: OrderInfoProps) => {
     );
   }, 0);
   const uiElements = specials?.ui_elements ?? [];
+  const { breakdown, hasError: priceHasError } = usePriceBreakdown({ items });
 
   return (
     <>
@@ -121,8 +121,8 @@ const OrderInfo = (props: OrderInfoProps) => {
                 } else if (uiElement.type === UiElementType.Image) {
                   return (
                     <Image
-                      alt={uiElement.filename}
-                      src={`/${uiElement.filename}`}
+                      alt=""
+                      src={uiElement.src ?? `/${uiElement.filename}`}
                     />
                   );
                 }
@@ -159,7 +159,12 @@ const OrderInfo = (props: OrderInfoProps) => {
                 },
               }}
             >
-              Total: {calculatePriceString(items, specials)}
+              Total:{" "}
+              {breakdown
+                ? breakdown.formattedTotal
+                : priceHasError
+                ? "unavailable"
+                : "..."}
             </Typography>
             <Button
               sx={{

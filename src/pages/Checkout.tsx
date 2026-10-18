@@ -3,27 +3,23 @@ import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Button,
+  CircularProgress,
   Paper,
   Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import moment from "moment";
-import { useState } from "react";
-import { CollectionInfo, DynamicSpecials, Items, Page } from "../App.types";
-import { ProductCode, PRODUCTS } from "../products.const";
-import {
-  calculatePriceMinor,
-  calculatePriceString,
-  formatMinor,
-} from "../utils";
+import { Fragment, useState } from "react";
+import { apiUrl, priceOrder } from "../api";
+import { CollectionInfo, Items, Page } from "../App.types";
+import { usePriceBreakdown } from "../usePriceBreakdown";
 
 type CheckoutProps = {
   setPage: (page: Page) => void;
   items: Items;
   collectionInfo: CollectionInfo;
-  specials: DynamicSpecials | null;
 };
 
 const OrderSummaryContainer = styled.div`
@@ -66,18 +62,23 @@ const PayNowQr = styled.img`
 `;
 
 const Checkout = (props: CheckoutProps) => {
-  const { setPage, items, collectionInfo, specials } = props;
+  const { setPage, items, collectionInfo } = props;
 
+  // promoCode is what the customer typed; appliedPromoCode is set once the
+  // backend has accepted it, and is the only promo code sent with the order
   const [promoCode, setPromoCode] = useState("");
-  const [promoDescription, setPromoDescription] = useState("");
-  const [promoDiscount, setPromoDiscount] = useState(0);
-  const [promoApplied, setPromoApplied] = useState(false);
-  const priceMinor = calculatePriceMinor(items, specials);
-  const deliveryFeeRequired =
-    collectionInfo.collectionMode === "delivery" && priceMinor < 5000;
-  const totalPriceString = formatMinor(
-    priceMinor + (deliveryFeeRequired ? 1000 : 0) - promoDiscount
-  );
+  const [appliedPromoCode, setAppliedPromoCode] = useState("");
+  const promoApplied = appliedPromoCode !== "" && appliedPromoCode === promoCode;
+
+  const {
+    breakdown,
+    isLoading: isPriceLoading,
+    hasError: priceHasError,
+  } = usePriceBreakdown({
+    items,
+    collectionMode: collectionInfo.collectionMode,
+    ...(appliedPromoCode && { promoCode: appliedPromoCode }),
+  });
 
   const [isPromoQueryLoading, setIsPromoQueryLoading] = useState(false);
   const [promoSnackOpen, setPromoSnackOpen] = useState(false);
@@ -89,53 +90,52 @@ const Checkout = (props: CheckoutProps) => {
   const applyPromo = async () => {
     setIsPromoQueryLoading(true);
     try {
-      const response = await axios.post(
-        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/applyPromo",
-        {
-          promoCode,
-          priceMinor,
-        }
-      );
-      setPromoDiscount(response.data.promoDiscount);
-      setPromoDescription(response.data.promoDescription);
-      setPromoError("");
-      setPromoSnackOpen(true);
-      setPromoApplied(true);
-    } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.errorMessage) {
-        setPromoError(err.response.data.errorMessage);
+      const result = await priceOrder({
+        items,
+        collectionMode: collectionInfo.collectionMode,
+        promoCode,
+      });
+      if (result.promoError) {
+        setPromoError(result.promoError);
+        setAppliedPromoCode("");
       } else {
-        setPromoError("An error occurred, please try again later");
+        setPromoError("");
+        setAppliedPromoCode(promoCode);
+        setPromoSnackOpen(true);
       }
-      setPromoDiscount(0);
+    } catch (err) {
+      console.error(err);
+      setPromoError("An error occurred, please try again later");
+      setAppliedPromoCode("");
     } finally {
       setIsPromoQueryLoading(false);
     }
   };
+
   const submit = async () => {
+    if (!breakdown) {
+      return;
+    }
     setSubmissionIsLoading(true);
     try {
-      await axios.post(
-        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/makeOrder",
-        {
-          price: totalPriceString,
-          items,
-          collectionInfo: {
-            ...collectionInfo,
-            ...(collectionInfo.selfCollectionDate && {
-              selfCollectionDate: moment(
-                collectionInfo.selfCollectionDate
-              ).format("DD/MM/YYYY"),
-            }),
-            ...(collectionInfo.deliveryDate && {
-              deliveryDate: moment(collectionInfo.deliveryDate).format(
-                "DD/MM/YYYY"
-              ),
-            }),
-          },
-          ...(promoCode.length && { promoCode }),
-        }
-      );
+      await axios.post(apiUrl("makeOrder"), {
+        price: breakdown.formattedTotal,
+        items,
+        collectionInfo: {
+          ...collectionInfo,
+          ...(collectionInfo.selfCollectionDate && {
+            selfCollectionDate: moment(
+              collectionInfo.selfCollectionDate
+            ).format("DD/MM/YYYY"),
+          }),
+          ...(collectionInfo.deliveryDate && {
+            deliveryDate: moment(collectionInfo.deliveryDate).format(
+              "DD/MM/YYYY"
+            ),
+          }),
+        },
+        ...(appliedPromoCode && { promoCode: appliedPromoCode }),
+      });
       setSubmissionIsLoading(false);
       setPage("success");
     } catch (err) {
@@ -153,6 +153,40 @@ const Checkout = (props: CheckoutProps) => {
   };
   return (
     <>
+      <Snackbar
+        open={errorSnackOpen}
+        autoHideDuration={6000}
+        onClose={onErrorSnackClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
+        <Alert
+          onClose={onErrorSnackClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          An error occurred. Please try again later.
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={promoSnackOpen}
+        autoHideDuration={3000}
+        onClose={onPromoSnackClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
+        <Alert
+          onClose={onPromoSnackClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Promo applied successfully!
+        </Alert>
+      </Snackbar>
       <Container>
         <Paper
           sx={{
@@ -177,101 +211,54 @@ const Checkout = (props: CheckoutProps) => {
             Order Summary
           </Typography>
           <Divider />
-          <OrderSummaryContainer>
-            {(Object.keys(items) as ProductCode[]).map(
-              (productCode: ProductCode) => {
-                let product: { label: string } = PRODUCTS[productCode];
-                if (!product) {
-                  product = specials?.products?.find(
-                    (specialProduct) =>
-                      specialProduct.productCode === productCode
-                  ) ?? { label: "error" };
-                }
-                const itemsOfProduct = items[productCode];
-                if (!itemsOfProduct) {
-                  return null;
-                }
-                return (
-                  <>
-                    <Snackbar
-                      open={errorSnackOpen}
-                      autoHideDuration={6000}
-                      onClose={onErrorSnackClose}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                      }}
-                    >
-                      <Alert
-                        onClose={onErrorSnackClose}
-                        severity="error"
-                        sx={{ width: "100%" }}
-                      >
-                        An error occurred. Please try again later.
-                      </Alert>
-                    </Snackbar>
-                    <Snackbar
-                      open={promoSnackOpen}
-                      autoHideDuration={3000}
-                      onClose={onPromoSnackClose}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                      }}
-                    >
-                      <Alert
-                        onClose={onPromoSnackClose}
-                        severity="success"
-                        sx={{ width: "100%" }}
-                      >
-                        Promo applied successfully!
-                      </Alert>
-                    </Snackbar>
-                    <Typography sx={{ fontSize: "1em" }}>
-                      {product.label}
-                    </Typography>
-                    <Typography>
-                      {calculatePriceString(
-                        { [productCode]: itemsOfProduct },
-                        specials
-                      )}
-                    </Typography>
-                    <VariantsContainer>
-                      {Object.keys(itemsOfProduct).map((variant) => {
-                        return (
-                          <Typography
-                            sx={{
-                              fontSize: "0.8em",
-                              "@media(min-width: 780px)": {
-                                fontSize: "0.9em",
-                              },
-                            }}
-                          >{`${itemsOfProduct[variant]}x ${variant}`}</Typography>
-                        );
-                      })}
-                    </VariantsContainer>
-                  </>
-                );
-              }
-            )}
-            {deliveryFeeRequired && (
-              <>
-                <Typography sx={{ fontSize: "1em" }}>Delivery Fee</Typography>
-                <Typography>$10.00</Typography>
-              </>
-            )}
-            {promoDiscount > 0 && (
-              <>
-                <Typography sx={{ fontSize: "1em" }}>
-                  {promoDescription}
-                </Typography>
-                <Typography>{`- ${formatMinor(promoDiscount)}`}</Typography>
-              </>
-            )}
-            <Divider />
-            <Typography sx={{ fontSize: "1em" }}>Total</Typography>
-            <Typography>{totalPriceString}</Typography>
-          </OrderSummaryContainer>
+          {!breakdown ? (
+            priceHasError ? (
+              <Typography sx={{ color: "error.main" }}>
+                Unable to calculate prices. Please try again later.
+              </Typography>
+            ) : (
+              <CircularProgress sx={{ alignSelf: "center" }} />
+            )
+          ) : (
+            <OrderSummaryContainer>
+              {breakdown.items.map((item) => (
+                <Fragment key={item.productCode}>
+                  <Typography sx={{ fontSize: "1em" }}>{item.label}</Typography>
+                  <Typography>{item.formattedPrice}</Typography>
+                  <VariantsContainer>
+                    {item.variants.map(({ variant, quantity }) => (
+                      <Typography
+                        key={variant}
+                        sx={{
+                          fontSize: "0.8em",
+                          "@media(min-width: 780px)": {
+                            fontSize: "0.9em",
+                          },
+                        }}
+                      >{`${quantity}x ${variant}`}</Typography>
+                    ))}
+                  </VariantsContainer>
+                </Fragment>
+              ))}
+              {breakdown.deliveryFee > 0 && (
+                <>
+                  <Typography sx={{ fontSize: "1em" }}>Delivery Fee</Typography>
+                  <Typography>{breakdown.formattedDeliveryFee}</Typography>
+                </>
+              )}
+              {breakdown.promo && breakdown.promo.discount > 0 && (
+                <>
+                  <Typography sx={{ fontSize: "1em" }}>
+                    {breakdown.promo.description}
+                  </Typography>
+                  <Typography>{`- ${breakdown.promo.formattedDiscount}`}</Typography>
+                </>
+              )}
+              <Divider />
+              <Typography sx={{ fontSize: "1em" }}>Total</Typography>
+              <Typography>{breakdown.formattedTotal}</Typography>
+            </OrderSummaryContainer>
+          )}
         </Paper>
         <Paper
           sx={{
@@ -302,12 +289,13 @@ const Checkout = (props: CheckoutProps) => {
               required
               value={promoCode}
               onChange={(e) => {
-                setPromoApplied(false);
                 setPromoCode(e.target.value);
+                setAppliedPromoCode("");
+                setPromoError("");
               }}
               error={promoError.length > 0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && promoCode.length > 0) {
                   applyPromo();
                 }
               }}
@@ -431,6 +419,8 @@ const Checkout = (props: CheckoutProps) => {
           }}
           onClick={submit}
           loading={isSubmisssionLoading}
+          // the total must be up to date before the order is placed
+          disabled={!breakdown || isPriceLoading || priceHasError}
         >
           Confirm Order
         </LoadingButton>

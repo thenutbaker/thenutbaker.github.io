@@ -15,6 +15,7 @@ import {
   Items,
   Page,
 } from "./App.types";
+import { apiUrl } from "./api";
 import Checkout from "./pages/Checkout";
 import Collection from "./pages/Collection";
 import OrderInfo from "./pages/OrderInfo";
@@ -83,7 +84,7 @@ function App() {
   useEffect(() => {
     const fetchDynamic = async () => {
       const response = await axios.get(
-        "https://asia-southeast1-nutbaker-form-backend.cloudfunctions.net/getDynamic"
+        apiUrl("getDynamic")
       );
       setFlavours(response.data.flavours);
       setConfigs(response.data.configs);
@@ -231,7 +232,6 @@ function App() {
           setPage={setPage}
           collectionInfo={collectionInfo}
           items={items}
-          specials={specials}
         />
       )}
       {page === "success" && <Success />}

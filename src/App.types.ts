@@ -47,7 +47,10 @@ type HeaderUiElement = {
 
 type ImageUiElement = {
   type: UiElementType.Image;
-  filename: string;
+  // where the image is shown from: a URL, or a path on this site
+  src?: string;
+  // a file in public/, from before images had a src
+  filename?: string;
 };
 
 type SelectionUiElement = {
