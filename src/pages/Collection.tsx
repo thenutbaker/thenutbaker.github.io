@@ -16,6 +16,9 @@ import "moment/locale/en-sg";
 import { useCallback, useEffect } from "react";
 import { CollectionInfo, DynamicConfigs, Page } from "../App.types";
 
+// the longest gift message the backend accepts
+const GIFT_MESSAGE_MAX_LENGTH = 500;
+
 type CollectionProps = {
   setPage: (page: Page) => void;
   collectionInfo: CollectionInfo;
@@ -173,17 +176,36 @@ const Checkout = (props: CollectionProps) => {
             checked={collectionInfo.isGift}
           />
           {collectionInfo.isGift && (
-            <TextField
-              label="Gift recipient's name"
-              required
-              value={collectionInfo.giftRecipientName}
-              onChange={(e) =>
-                setCollectionInfo((prev) => ({
-                  ...prev,
-                  giftRecipientName: e.target.value,
-                }))
-              }
-            ></TextField>
+            <>
+              <TextField
+                label="Gift recipient's name"
+                required
+                value={collectionInfo.giftRecipientName}
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    giftRecipientName: e.target.value,
+                  }))
+                }
+              ></TextField>
+              <TextField
+                sx={{ marginTop: "1em" }}
+                label="Message for the recipient (optional)"
+                multiline
+                minRows={2}
+                value={collectionInfo.giftMessage ?? ""}
+                inputProps={{ maxLength: GIFT_MESSAGE_MAX_LENGTH }}
+                helperText={`${
+                  collectionInfo.giftMessage?.length ?? 0
+                }/${GIFT_MESSAGE_MAX_LENGTH}`}
+                onChange={(e) =>
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    giftMessage: e.target.value,
+                  }))
+                }
+              ></TextField>
+            </>
           )}
         </Paper>
 
@@ -292,6 +314,21 @@ const Checkout = (props: CollectionProps) => {
               ></TextField>
               <TextField
                 sx={{ marginTop: "1em" }}
+                label="Unit Number (if applicable)"
+                value={collectionInfo.unitNumber}
+                onChange={(e) => {
+                  const sanitized = e.target.value.replace(
+                    /[^0-9\-#a-zA-Z]/,
+                    ""
+                  );
+                  setCollectionInfo((prev) => ({
+                    ...prev,
+                    unitNumber: sanitized,
+                  }));
+                }}
+              ></TextField>
+              <TextField
+                sx={{ marginTop: "1em", marginBottom: "1em" }}
                 label="Postal Code"
                 required
                 value={collectionInfo.postalCode}
@@ -303,21 +340,6 @@ const Checkout = (props: CollectionProps) => {
                   setCollectionInfo((prev) => ({
                     ...prev,
                     postalCode: sanitized,
-                  }));
-                }}
-              ></TextField>
-              <TextField
-                sx={{ marginTop: "1em", marginBottom: "1em" }}
-                label="Unit Number (if applicable)"
-                value={collectionInfo.unitNumber}
-                onChange={(e) => {
-                  const sanitized = e.target.value.replace(
-                    /[^0-9\-#a-zA-Z]/,
-                    ""
-                  );
-                  setCollectionInfo((prev) => ({
-                    ...prev,
-                    unitNumber: sanitized,
                   }));
                 }}
               ></TextField>

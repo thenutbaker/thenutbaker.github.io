@@ -10,6 +10,8 @@ export type CollectionInfo = {
   unitNumber?: string;
   postalCode?: string;
   giftRecipientName?: string;
+  // only sent for gifts
+  giftMessage?: string;
   selfCollectionDate?: Date;
   deliveryDate?: Date;
 };
